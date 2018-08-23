@@ -23,23 +23,26 @@ public class DAOUExc implements DAOcommand<UserExcursion>
 	}
 
 	@Override
-	public void add(UserExcursion t, String locale) 
+	public void add(UserExcursion t, String locale) throws SQLException 
 	{
 			try 
 			{
 				PreparedStatement pre = connection.prepareStatement("insert into user_excursions (login, excursionID, count) values (?,?,?)");
+				connection.setAutoCommit(false);
 				pre.setString(1, t.getLogin());
 				pre.setString(2, t.getExcursionID());
 				pre.setInt(3, t.getCount());
 				pre.executeUpdate();
+				connection.commit();
 			}catch (SQLException e)
 			{
 				e.printStackTrace();
+				connection.rollback();
 			}
 	}
 
 	
-	public void delete(String excursionID,String login ) 
+	public void delete(String excursionID,String login ) throws SQLException 
 	{
 		UserExcursion userExc = getByID(login,excursionID);
 		if(userExc.getCount()>1) 
@@ -51,12 +54,15 @@ public class DAOUExc implements DAOcommand<UserExcursion>
 		try 
 		{
 			PreparedStatement pre = connection.prepareStatement("delete from user_excursions where login=? and excursionID=?");
+			connection.setAutoCommit(false);
 			pre.setString(1, login);
 			pre.setString(2, excursionID);
 			pre.executeUpdate();
+			connection.commit();
 		}catch (SQLException e)
 		{
 			e.printStackTrace();
+			connection.rollback();
 		}
 		}
 	}

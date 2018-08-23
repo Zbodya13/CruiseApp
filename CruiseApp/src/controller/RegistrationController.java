@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,7 +37,13 @@ public class RegistrationController extends HttpServlet {
 	{
 		try
 		{
-		service.makeUser(request);
+		try {
+			service.makeUser(request);
+		} catch (SQLException e) 
+		{
+			request.getSession().setAttribute("error", "Something wrong with transaction");		   
+			request.getRequestDispatcher(REGISTER).forward(request, response);	
+		}
 		}catch (NullPointerException | NumberFormatException e) 
 		{			
 			request.getSession().setAttribute("error", "Invalid data");		   

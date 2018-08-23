@@ -72,6 +72,10 @@
 	<input type="text" hidden name="action" value="create">    
 	<button type="submit" class="btn btn-default"><fmt:message key="create" /></button>      
 </form> 
+<div class="col-xs-4">
+<div class="alert alert-danger" role="alert">
+   ${sessionScope.error}
+</div></div>
 
 </div>
 </body>

@@ -22,17 +22,20 @@ public class DAOShipExc implements DAOcommand<ShipExcursion>
 	}
 
 	@Override
-	public void add(ShipExcursion t, String locale)
+	public void add(ShipExcursion t, String locale) throws SQLException
 	{
 		try 
 		{
 			PreparedStatement pre = connection.prepareStatement("insert into ship_excursion (shipID, excursionID) values (?,?)");
+			connection.setAutoCommit(false);
 			pre.setString(1, t.getShipID());
 			pre.setString(2, t.getExcursionID());			
 			pre.executeUpdate();
+			connection.commit();
 		}catch (SQLException e)
 		{
 			e.printStackTrace();
+			connection.rollback();
 		}		
 	}
 

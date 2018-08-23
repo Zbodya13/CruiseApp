@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class ApplicationService
 		daoUExc = new DAOUExc();
 	}
 	
-	public void makeUser(HttpServletRequest request) {
+	public void makeUser(HttpServletRequest request) throws SQLException {
 		User user = new User();
 		user.setLogin(request.getParameter("login"));
 		user.setPassword(request.getParameter("password"));
@@ -59,7 +60,7 @@ public class ApplicationService
 		daoUser.add(user, "ua");
 	}
 	
-	public void makeExcursion(HttpServletRequest request, String locale) throws UnsupportedEncodingException {
+	public void makeExcursion(HttpServletRequest request, String locale) throws UnsupportedEncodingException, SQLException {
 		Excursion excursion = new Excursion();
 		excursion.setExcursionID(new String(request.getParameter("excursionID").getBytes("iso-8859-1"),"utf-8"));
 		excursion.setDescription(new String(request.getParameter("description").getBytes("iso-8859-1"),"utf-8"));
@@ -68,7 +69,7 @@ public class ApplicationService
 		daoExc.add(excursion, locale);
 	}
 	
-	public void updateExcursion(HttpServletRequest request) throws UnsupportedEncodingException {
+	public void updateExcursion(HttpServletRequest request) throws UnsupportedEncodingException, SQLException {
 		Excursion excursion = new Excursion();
 		String localeex = (String)request.getSession().getAttribute("sessionLocale");
 		excursion.setExcursionID(new String(request.getParameter("excursionID").getBytes("iso-8859-1"),"utf-8"));
@@ -144,7 +145,7 @@ public class ApplicationService
 	}
 	
 	public void buyShip(HttpServletRequest request, HttpServletResponse response, String login, String locale)
-			throws IOException {
+			throws IOException, SQLException {
 		User u;
 		boolean act = true;			
 		u = daoUser.getByID(login, locale);
@@ -159,7 +160,13 @@ public class ApplicationService
 					ship.setCapacity(ship.getCapacity()-1);
 					daoShip.update(ship, locale);
 					us.setCount(us.getCount()+1);						
-					daoUShip.update(us,locale);		
+					try {
+						daoUShip.update(us,locale);
+					} catch (SQLException e) 
+					{
+						request.getSession().setAttribute("error", "Something wrong with transaction");
+						response.sendRedirect("?action=listShips&sessionLocale=" + locale);
+					}		
 					if(locale.equals("en")) 
 					{
 						u.setCash(u.getCash()-ship.getPrice());
@@ -208,7 +215,13 @@ public class ApplicationService
 					u.setCash(u.getCash()-ship.getPrice());
 					daoUser.update(u, "en");
 				}	
-				daoUShip.add(uShip,locale);		
+				try {
+					daoUShip.add(uShip,locale);
+				} catch (SQLException e) 
+				{				
+					request.getSession().setAttribute("error", "Something wrong with transaction");
+					response.sendRedirect("?action=listShips&sessionLocale=" + locale);
+				}		
 			}
 			response.sendRedirect("?action=listShips&sessionLocale=" + locale);
 
@@ -220,7 +233,7 @@ public class ApplicationService
 	}
 	
 	public void buyExcursion(HttpServletRequest request, HttpServletResponse response, String login, String locale)
-			throws IOException {
+			throws IOException, SQLException {
 		User u;
 		boolean act = true;			
 		u = daoUser.getByID(login, locale);
@@ -291,7 +304,7 @@ public class ApplicationService
 		}
 	}
 	
-	public void revokeShip(HttpServletRequest request, HttpServletResponse response, User u, String login,	String locale) throws IOException 
+	public void revokeShip(HttpServletRequest request, HttpServletResponse response, User u, String login,	String locale) throws IOException, SQLException 
 	{
 		Ship ship = (Ship)daoShip.getByID(request.getParameter("shipID"), "en");			
 		ship.setCapacity(ship.getCapacity()+1);
@@ -322,12 +335,18 @@ public class ApplicationService
 			u.setCash(u.getCash()+ship.getPrice());
 			daoUser.update(u, "en");
 		}	
-		daoUShip.delete(request.getParameter("shipID"),login);		
+		try {
+			daoUShip.delete(request.getParameter("shipID"),login);
+		} catch (SQLException e) 
+		{
+			request.getSession().setAttribute("error", "Something wrong with transaction");
+			response.sendRedirect("?action=userListShips&sessionLocale=" + locale);			
+		}		
 		response.sendRedirect("?action=userListShips&sessionLocale=" + locale);
 	}
 	
 	public void revokeExcursion(HttpServletRequest request, HttpServletResponse response, User u, String login,
-			String locale) throws IOException {
+			String locale) throws IOException, SQLException {
 		daoUExc.delete(request.getParameter("excursionID"),login);	
 		u = daoUser.getByID(u.getLogin(), locale);
 		if(locale.equals("en")) 
@@ -355,7 +374,7 @@ public class ApplicationService
 		response.sendRedirect("?action=userListExcursions&sessionLocale=" + locale);
 	}
 	
-	public String addCash(HttpServletRequest request) {
+	public String addCash(HttpServletRequest request) throws SQLException {
 		User user = (User) request.getSession().getAttribute("user");
 		String login = user.getLogin();
 		User userEN = daoUser.getByID(login, "en"); 

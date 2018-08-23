@@ -26,21 +26,24 @@ public class DAOExcursion implements DAOcommand<Excursion>
 	}
 	
 	@Override
-	public void add(Excursion t, String locale) 
+	public void add(Excursion t, String locale) throws SQLException 
 	{
 		if(locale.equalsIgnoreCase("ua"))
 		{
 		try 
 		{
 			PreparedStatement preparedStatement = connection.prepareStatement("insert into excursionua (excursionID,city,description,price) values (?,?,?,?)");
+			connection.setAutoCommit(false);
 			preparedStatement.setString(1, t.getExcursionID());
 			preparedStatement.setString(2, t.getCity());
 			preparedStatement.setString(3, t.getDescription());
 			preparedStatement.setInt(4, t.getPrice());					
 			preparedStatement.executeUpdate();
+			connection.commit();
 		}catch (SQLException e)
 		{
 			e.printStackTrace();
+			connection.rollback();
 		}
 		}
 		else if(locale.equalsIgnoreCase("en"))
@@ -48,72 +51,87 @@ public class DAOExcursion implements DAOcommand<Excursion>
 		try 
 		{
 			PreparedStatement preparedStatement = connection.prepareStatement("insert into excursionen (excursionID,city,description,price) values (?,?,?,?)");
+			connection.setAutoCommit(false);
 			preparedStatement.setString(1, t.getExcursionID());
 			preparedStatement.setString(2, t.getCity());
 			preparedStatement.setString(3, t.getDescription());
 			preparedStatement.setInt(4, t.getPrice());					
 			preparedStatement.executeUpdate();
+			connection.commit();
 		}catch (SQLException e)
 		{
 			e.printStackTrace();
+			connection.rollback();
 		}
 		}
 	}
 
 	@Override
-	public void delete(String excursionID) 
+	public void delete(String excursionID) throws SQLException 
 	{
 		try 
 		{
 			PreparedStatement preparedStatement = connection.prepareStatement("delete from excursionua where excursionID=?");
+			connection.setAutoCommit(false);
 			preparedStatement.setString(1,excursionID);
 			preparedStatement.executeUpdate();			
+			connection.commit();
 		}catch(SQLException e) 
 		{
 			e.printStackTrace();
+			connection.rollback();
 		}
 		try 
 		{
 			PreparedStatement preparedStatement = connection.prepareStatement("delete from excursionen where excursionID=?");
+			connection.setAutoCommit(false);
 			preparedStatement.setString(1,excursionID);
-			preparedStatement.executeUpdate();			
+			preparedStatement.executeUpdate();	
+			connection.commit();
 		}catch(SQLException e) 
 		{
 			e.printStackTrace();
+			connection.rollback();
 		}
 	}
 
 	@Override
-	public void update(Excursion t, String locale) 
+	public void update(Excursion t, String locale) throws SQLException 
 	{
 		if(locale.equalsIgnoreCase("ua"))
 		{
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement("update excursionua set excursionID=?, city=?, description=?, price=? where excursionID=?");
+			connection.setAutoCommit(false);
 			preparedStatement.setString(1, t.getExcursionID());
 			preparedStatement.setString(2, t.getCity());
 			preparedStatement.setString(3, t.getDescription());
 			preparedStatement.setInt(4, t.getPrice());
 			preparedStatement.setString(5, t.getExcursionID());					
 			preparedStatement.executeUpdate();
+			connection.commit();
 		} catch (SQLException e) 
 		{			
 			e.printStackTrace();
+			connection.rollback();
 		}
 		}
 		else if(locale.equalsIgnoreCase("en"))
 		{
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement("update excursionen set excursionID=?, city=?, description=?, price=? where excursionID=?");
+			connection.setAutoCommit(false);
 			preparedStatement.setString(1, t.getExcursionID());
 			preparedStatement.setString(2, t.getCity());
 			preparedStatement.setString(3, t.getDescription());
 			preparedStatement.setInt(4, t.getPrice());
 			preparedStatement.setString(5, t.getExcursionID());					
 			preparedStatement.executeUpdate();
+			connection.commit();
 		} catch (SQLException e) 
 		{			
 			e.printStackTrace();
+			connection.rollback();
 		}
 		}
 	}

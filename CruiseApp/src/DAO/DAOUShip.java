@@ -24,23 +24,26 @@ public class DAOUShip implements DAOcommand<UserShip>
 	}
 
 	@Override
-	public void add(UserShip t, String locale) 
+	public void add(UserShip t, String locale) throws SQLException 
 	{
 			try 
 			{
 				PreparedStatement pre = connection.prepareStatement("insert into user_ships (login, shipID,count) values (?,?,?)");
+				connection.setAutoCommit(false);
 				pre.setString(1, t.getLogin());
 				pre.setString(2, t.getShipID());
 				pre.setInt(3, t.getCount());
 				pre.executeUpdate();
+				connection.commit();
 			}catch (SQLException e)
 			{
-				e.printStackTrace();
+				connection.rollback();
+				throw e;				
 			}
 	}
 
 	
-	public void delete(String shipID, String login) 
+	public void delete(String shipID, String login) throws SQLException 
 	{
 		UserShip userShip = this.getByID(login,shipID);
 		if(userShip.getCount()>1) 
@@ -52,31 +55,37 @@ public class DAOUShip implements DAOcommand<UserShip>
 		try 
 		{
 			PreparedStatement pre = connection.prepareStatement("delete from user_ships where login=? and shipID=?");
+			connection.setAutoCommit(false);
 			pre.setString(1, login);
 			pre.setString(2, shipID);
 			pre.executeUpdate();
+			connection.commit();
 		}catch (SQLException e)
 		{
 			e.printStackTrace();
+			connection.rollback();
 		}	
 		}
 	}
 
 	@Override
-	public void update(UserShip t, String locale) 
+	public void update(UserShip t, String locale) throws SQLException 
 	{
 		try 
 		{
 			PreparedStatement pre = connection.prepareStatement("update user_ships set login=?, shipID=?, count=?  where login=? and shipID=?");
+			connection.setAutoCommit(false);
 			pre.setString(1, t.getLogin());
 			pre.setString(2, t.getShipID());
 			pre.setInt(3, t.getCount());
 			pre.setString(4, t.getLogin());
 			pre.setString(5, t.getShipID());
 			pre.executeUpdate();
+			connection.commit();
 		}catch (SQLException e)
 		{
 			e.printStackTrace();
+			connection.rollback();
 		}
 	}
 
@@ -85,7 +94,7 @@ public class DAOUShip implements DAOcommand<UserShip>
 	{
 		List<UserShip> userShip = new ArrayList<UserShip>();
         try {
-            Statement statement = connection.createStatement();
+            Statement statement = connection.createStatement();            
             ResultSet rs = statement.executeQuery("select * from user_ships");
             while (rs.next()) {
                 UserShip uShip = new UserShip();

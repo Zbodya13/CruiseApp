@@ -149,7 +149,10 @@
 	<button type="submit" class="btn btn-default"><fmt:message key="addCash" /></button>      
 </form> 
 
-
+<div class="col-xs-4">
+<div class="alert alert-danger" role="alert">
+   ${sessionScope.error}
+</div></div>
 
 </div>
 </body>

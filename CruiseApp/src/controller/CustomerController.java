@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +33,6 @@ public class CustomerController extends HttpServlet {
 	private static String AVAILABLE_LIST_EXCURSIONS = "customUser/availableExcursions.jsp";
 	private DAOShip daoShip;
 	private  DAOUser daoUser;
-	private DAOUShip daoUShip;
-	private DAOUExc daoUExc;
 	private ApplicationService service;
 
 
@@ -43,9 +42,7 @@ public class CustomerController extends HttpServlet {
     {
         super();
         daoShip = new DAOShip();        
-        daoUser = new DAOUser();
-        daoUExc = new DAOUExc();
-        daoUShip = new DAOUShip();
+        daoUser = new DAOUser();     
         daoExc = new DAOExcursion();
         service = new ApplicationService();
     }
@@ -100,11 +97,22 @@ public class CustomerController extends HttpServlet {
 		}
 		else if(action.equals("buyShip")) 
 		{
-			service.buyShip(request, response, login, locale);
+			try {
+				service.buyShip(request, response, login, locale);
+			} catch (SQLException e) 
+			{
+				request.getSession().setAttribute("error", "Something wrong with transaction");
+				response.sendRedirect("?action=buyShip&sessionLocale=" + locale);			
+			}
 		}
 		else if(action.equals("buyExcursion")) 
 		{
-			service.buyExcursion(request, response, login, locale);
+			try {
+				service.buyExcursion(request, response, login, locale);
+			} catch (SQLException e) {
+				request.getSession().setAttribute("error", "Something wrong with transaction");
+				response.sendRedirect("?action=buyExcursion&sessionLocale=" + locale);			
+			}
 		}
 		else if(action.equals("userListExcursions")) 
 		{				
@@ -118,11 +126,22 @@ public class CustomerController extends HttpServlet {
 		}
 		else if(action.equals("revokeShip")) 
 		{										
-			service.revokeShip(request, response, u, login, locale);
+			try {
+				service.revokeShip(request, response, u, login, locale);
+			} catch (SQLException e) 
+			{
+				request.getSession().setAttribute("error", "Something wrong with transaction");
+				response.sendRedirect("?action=revokeShip&sessionLocale=" + locale);			
+			}
 		}
 		else if(action.equals("revokeExcursion")) 
 		{				
-			service.revokeExcursion(request, response, u, login, locale);
+			try {
+				service.revokeExcursion(request, response, u, login, locale);
+			} catch (SQLException e) {
+				request.getSession().setAttribute("error", "Something wrong with transaction");
+				response.sendRedirect("?action=revokeExcursion&sessionLocale=" + locale);			
+			}
 		}		
 	}
 
@@ -160,6 +179,10 @@ public class CustomerController extends HttpServlet {
 				request.getSession().setAttribute("error", "Invalid data");
 				request.getRequestDispatcher(LIST_EXCURSIONS).forward(request, response);
 				}
+			} catch (SQLException e) 
+			{
+				request.getSession().setAttribute("error", "Something wrong with transaction");
+				response.sendRedirect("?action=listShips&sessionLocale=" + locale);			
 			}
 		}
 

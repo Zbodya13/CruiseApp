@@ -22,11 +22,12 @@ public class DAOUser implements DAOcommand<User>
 	}
 
 	@Override
-	public void add(User user,String locale) 
+	public void add(User user,String locale) throws SQLException 
 	{
 		try 
 		{
-			PreparedStatement preparedStatement = connection.prepareStatement("insert into usersua (login,password,name,surname,telephon,role,cash) values (?,?,?,?,?,?,?)");
+			PreparedStatement preparedStatement = connection.prepareStatement("insert into usersua (login,password,name,surname,telephon,role,cash) values (?,?,?,?,?,?,?)");			
+			connection.setAutoCommit(false);
 			preparedStatement.setString(1, user.getLogin());
 			preparedStatement.setString(2, user.getPassword());
 			preparedStatement.setString(3, user.getName());
@@ -35,14 +36,17 @@ public class DAOUser implements DAOcommand<User>
 			preparedStatement.setString(6, user.getRole());
 			preparedStatement.setLong(7, user.getCash());
 			preparedStatement.executeUpdate();
+			connection.commit();
 		}catch (SQLException e)
 		{
 			e.printStackTrace();
+			connection.rollback();
 		}
 		
 		try 
 		{
-			PreparedStatement preparedStatement = connection.prepareStatement("insert into usersen (login,password,name,surname,telephon,role,cash) values (?,?,?,?,?,?,?)");
+			PreparedStatement preparedStatement = connection.prepareStatement("insert into usersen (login,password,name,surname,telephon,role,cash) values (?,?,?,?,?,?,?)");			
+			connection.setAutoCommit(false);
 			preparedStatement.setString(1, user.getLogin());
 			preparedStatement.setString(2, user.getPassword());
 			preparedStatement.setString(3, user.getName());
@@ -51,44 +55,53 @@ public class DAOUser implements DAOcommand<User>
 			preparedStatement.setString(6, user.getRole());
 			preparedStatement.setLong(7, user.getCash());
 			preparedStatement.executeUpdate();
+			connection.commit();
 		}catch (SQLException e)
 		{
 			e.printStackTrace();
+			connection.rollback();
 		}
 		
 	}
 
 	@Override
-	public void delete(String login) 
+	public void delete(String login) throws SQLException 
 	{
 		try 
 		{
-			PreparedStatement preparedStatement = connection.prepareStatement("delete from usersua where login=?");
+			PreparedStatement preparedStatement = connection.prepareStatement("delete from usersua where login=?");			
+			connection.setAutoCommit(false);
 			preparedStatement.setString(1,login);
-			preparedStatement.executeUpdate();			
+			preparedStatement.executeUpdate();	
+			connection.commit();
 		}catch(SQLException e) 
 		{
 			e.printStackTrace();
+			connection.rollback();
 		}
 		try 
 		{
-			PreparedStatement preparedStatement = connection.prepareStatement("delete from usersen where login=?");
+			PreparedStatement preparedStatement = connection.prepareStatement("delete from usersen where login=?");			
+			connection.setAutoCommit(false);
 			preparedStatement.setString(1,login);
-			preparedStatement.executeUpdate();			
+			preparedStatement.executeUpdate();		
+			connection.commit();
 		}catch(SQLException e) 
 		{
 			e.printStackTrace();
+			connection.rollback();
 		}
 		
 	}
 
 	@Override
-	public void update(User user, String locale) 
+	public void update(User user, String locale) throws SQLException 
 	{
 		if(locale.equals("ua"))
 		{
 		try {
-			PreparedStatement preparedStatement = connection.prepareStatement("update usersua set login=?, password=?, name=?, surname=?, telephon=?, role=?, cash=? where login=?");
+			PreparedStatement preparedStatement = connection.prepareStatement("update usersua set login=?, password=?, name=?, surname=?, telephon=?, role=?, cash=? where login=?");			
+			connection.setAutoCommit(false);
 			preparedStatement.setString(1, user.getLogin());
 			preparedStatement.setString(2, user.getPassword());
 			preparedStatement.setString(3, user.getName());
@@ -98,15 +111,18 @@ public class DAOUser implements DAOcommand<User>
 			preparedStatement.setLong(7, user.getCash());
 			preparedStatement.setString(8, user.getLogin());			
 			preparedStatement.executeUpdate();
+			connection.commit();
 		} catch (SQLException e) 
 		{			
 			e.printStackTrace();
+			connection.rollback();
 		}
 		}
 		else if(locale.equals("en")) 
 		{
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement("update usersen set login=?, password=?, name=?, surname=?, telephon=?, role=?, cash=? where login=?");
+			connection.setAutoCommit(false);
 			preparedStatement.setString(1, user.getLogin());
 			preparedStatement.setString(2, user.getPassword());
 			preparedStatement.setString(3, user.getName());
@@ -116,9 +132,11 @@ public class DAOUser implements DAOcommand<User>
 			preparedStatement.setLong(7, user.getCash());
 			preparedStatement.setString(8, user.getLogin());			
 			preparedStatement.executeUpdate();
+			connection.commit();
 		} catch (SQLException e) 
 		{			
 			e.printStackTrace();
+			connection.rollback();
 		}
 		}
 	}
