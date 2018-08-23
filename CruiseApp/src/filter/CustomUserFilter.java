@@ -39,13 +39,13 @@ public class CustomUserFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest)request;
 		HttpServletResponse res = (HttpServletResponse)response;
 		User user = (User) req.getSession().getAttribute("user");
-		if(user!=null && user.getRole().equals("admin")) 
+		if(user!=null && user.getRole().equals("custom")) 
 		{
 			chain.doFilter(request, response);
 		}
-		else if(user!=null && user.getRole().equals("custom"))
+		else if(user!=null && !user.getRole().equals("custom"))
 		{
-			req.getSession().setAttribute("errorMessage", "Access denied! You are not admin!");				
+			req.getSession().setAttribute("errorMessage", "Access denied! You are not logged in!");				
 			res.sendRedirect("http://localhost:8080/CruiseApp/");
 		}
 		else 

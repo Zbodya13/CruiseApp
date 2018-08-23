@@ -42,7 +42,7 @@ public class AdminFilter implements Filter {
 		{
 			chain.doFilter(request, response);
 		}
-		else if(user!=null && user.getRole().equals("custom"))
+		else if(user!=null && !user.getRole().equals("admin"))
 		{
 			req.getSession().setAttribute("errorMessage", "Access denied! You are not admin!");				
 			res.sendRedirect("http://localhost:8080/CruiseApp/");
