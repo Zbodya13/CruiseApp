@@ -2,6 +2,8 @@ package controller;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,12 +22,15 @@ public class AdminShipController extends HttpServlet {
 	private static String EDIT_SHIP = "editShip.jsp";
     private DAOShip daoShip;
     private ApplicationService service;
+    boolean checkShip;
+   
     
     
     public AdminShipController() {
         super();
         daoShip = new DAOShip();
         service = new ApplicationService();
+        checkShip = false;        
     }
 
 	
@@ -71,8 +76,27 @@ public class AdminShipController extends HttpServlet {
 		if(action.equals("create")) 
 		{	
 			try 
-			{			
-			service.makeShip(request, locale);
+			{	
+				List<Ship> ships = daoShip.getAll(locale);
+				for(Ship s : ships) 
+				{
+					if(s.getShipID().equals(request.getParameter("shipID")))
+							{
+								checkShip = true;
+							}
+				}
+				if(checkShip) 
+				{
+					request.getSession().setAttribute("error", "Ship with same shipID already used");
+					request.getRequestDispatcher(CREATE_SHIP).forward(request, response);
+				}
+				else 
+				{
+					service.makeShip(request, locale);
+					request.getSession().removeAttribute("error");  
+					response.sendRedirect(request.getContextPath() + "/admin/adminShip?action=list");
+				}
+				
 			}catch (NullPointerException |NumberFormatException |ParseException e) 
 			{
 				request.getSession().setAttribute("error", "Invalid data");
@@ -92,10 +116,10 @@ public class AdminShipController extends HttpServlet {
 			    request.setAttribute("ship",shipExc);
 				request.getRequestDispatcher(EDIT_SHIP).forward(request, response);			
 			} 
-			
+			request.getSession().removeAttribute("error");  
+			response.sendRedirect(request.getContextPath() + "/admin/adminShip?action=list");
 		}			
-		request.getSession().removeAttribute("error");  
-		response.sendRedirect(request.getContextPath() + "/admin/adminShip?action=list");
+		
 	}
 
 

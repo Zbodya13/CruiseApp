@@ -25,11 +25,11 @@
 
 <form method="post" action="<c:url value='/auth'/>">
 	<div class="form-group row">
-		<label for="login"  class="col-sm-12 col-form-label"><fmt:message key="login_name" /></label>
+		<label for="login"  class="col-sm-12 col-form-label"><fmt:message key="login_name" />:</label>
 		<div class="col-sm-3">
      		<input type="text" class="form-control" name="login">
     		</div>    		
-    		<label for="password"  class="col-sm-12 col-form-label"><fmt:message key="password" /></label>
+    		<label for="password"  class="col-sm-12 col-form-label"><fmt:message key="password" />:</label>
 		<div class="col-sm-3">
      		<input type="password" class="form-control" name="password">
     		</div>	    			    			
@@ -50,6 +50,11 @@
 <div class="col-xs-4">
 <div class="alert alert-danger" role="alert">
    ${sessionScope.errorMessage}
+</div></div>
+
+<div class="col-xs-4">
+<div class="alert alert-success" role="alert">
+   ${sessionScope.message}
 </div></div>
 
 </div>

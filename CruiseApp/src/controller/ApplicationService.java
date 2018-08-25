@@ -40,7 +40,7 @@ public class ApplicationService
 		daoUExc = new DAOUExc();
 	}
 	
-	public void makeUser(HttpServletRequest request) throws SQLException {
+	public void makeUser(HttpServletRequest request) throws SQLException, UnsupportedEncodingException {		
 		User user = new User();
 		user.setLogin(request.getParameter("login"));
 		user.setPassword(request.getParameter("password"));
@@ -52,8 +52,8 @@ public class ApplicationService
 		daoUser.add(user, "en");
 		user.setLogin(request.getParameter("login"));
 		user.setPassword(request.getParameter("password"));
-		user.setName(request.getParameter("name_ua"));
-		user.setSurname(request.getParameter("surname_ua"));
+		user.setName(new String(request.getParameter("name_ua").getBytes("iso-8859-1"),"utf-8"));
+		user.setSurname(new String(request.getParameter("surname_ua").getBytes("iso-8859-1"),"utf-8"));
 		user.setTelefon(request.getParameter("telephon"));
 		user.setRole("custom");
 		user.setCash(Integer.parseInt(request.getParameter("cash")));

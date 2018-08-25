@@ -24,6 +24,8 @@ public class DAOUser implements DAOcommand<User>
 	@Override
 	public void add(User user,String locale) throws SQLException 
 	{
+		if(locale.equals("ua"))
+		{
 		try 
 		{
 			PreparedStatement preparedStatement = connection.prepareStatement("insert into usersua (login,password,name,surname,telephon,role,cash) values (?,?,?,?,?,?,?)");			
@@ -42,7 +44,8 @@ public class DAOUser implements DAOcommand<User>
 			e.printStackTrace();
 			connection.rollback();
 		}
-		
+		}else if(locale.equals("en"))
+		{
 		try 
 		{
 			PreparedStatement preparedStatement = connection.prepareStatement("insert into usersen (login,password,name,surname,telephon,role,cash) values (?,?,?,?,?,?,?)");			
@@ -61,7 +64,7 @@ public class DAOUser implements DAOcommand<User>
 			e.printStackTrace();
 			connection.rollback();
 		}
-		
+		}
 	}
 
 	@Override

@@ -26,35 +26,35 @@
 	<div class="form-group row">
 		<label for="login"  class="col-sm-5 col-form-label"><fmt:message key="login_name" /></label>
 		<div class="col-sm-7">
-     		<input type="text" class="form-control" name="login"  placeholder="Login">
+     		<input type="text" class="form-control" name="login"  placeholder="<fmt:message key="login_name" />">
     		</div>
     		<label for="password"  class="col-sm-5 col-form-label"><fmt:message key="password" /></label>
 		<div class="col-sm-7">
-     		<input type="text" class="form-control" name="password" id="password" placeholder="Password">
+     		<input type="text" class="form-control" name="password" id="password" placeholder="<fmt:message key="password" />">
     		</div>	
     		<label for="name_en"  class="col-sm-5 col-form-label"><fmt:message key="name_en" /></label>
 		<div class="col-sm-7">
-     		<input type="text" class="form-control" name="name_en" id="name_en" placeholder="User name in English">
+     		<input type="text" class="form-control" name="name_en" id="name_en" placeholder="<fmt:message key="name_en" />">
     		</div>	
     		<label for="surname_en"  class="col-sm-5 col-form-label"><fmt:message key="surname_en" /></label>
 		<div class="col-sm-7">
-     		<input type="text" class="form-control" name="surname_en" id="surname_en" placeholder="Surname in English">
+     		<input type="text" class="form-control" name="surname_en" id="surname_en" placeholder="<fmt:message key="surname_en" />">
     		</div> 
     		<label for="name_ua"  class="col-sm-5 col-form-label"><fmt:message key="name_ua" /></label>
 		<div class="col-sm-7">
-     		<input type="text" class="form-control" name="name_ua" id="name_ua" placeholder="User name in Ukrainian">
+     		<input type="text" class="form-control" name="name_ua" id="name_ua" placeholder="<fmt:message key="name_ua" />">
     		</div>	
     		<label for="surname_ua"  class="col-sm-5 col-form-label"><fmt:message key="surname_ua" /></label>
 		<div class="col-sm-7">
-     		<input type="text" class="form-control" name="surname_ua" id="surname_ua" placeholder="Surname in Ukrainian">
+     		<input type="text" class="form-control" name="surname_ua" id="surname_ua" placeholder="<fmt:message key="surname_ua" />">
     		</div> 	 
     		<label for="telephon"  class="col-sm-5 col-form-label"><fmt:message key="telephon" /></label>
 		<div class="col-sm-7">
-     		<input type="text" class="form-control" name="telephon" id="telephon" placeholder="Your telephon">
+     		<input type="text" class="form-control" name="telephon" id="telephon" placeholder="<fmt:message key="telephon" />">
     		</div> 
     		<label for="cash"  class="col-sm-5 col-form-label"><fmt:message key="cash" /></label>
 		<div class="col-sm-7">
-     		<input type="number" class="form-control" name="cash" id="cash" placeholder="Count of putting money">
+     		<input type="number" class="form-control" name="cash" id="cash" placeholder="<fmt:message key="cash" />">
     		</div>	   			
 	</div>	   
 	<button type="submit" class="btn btn-default"><fmt:message key="create" /></button> 	

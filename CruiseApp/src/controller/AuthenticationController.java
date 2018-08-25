@@ -32,8 +32,9 @@ public class AuthenticationController extends HttpServlet {
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{	
-		request.getSession().setAttribute("sessionLocale", "ua");	
+		request.getSession().removeAttribute("message");
 		request.getSession().removeAttribute("errorMessage");
+		request.getSession().setAttribute("sessionLocale", "ua");			
 		String login =  request.getParameter("login");
 		String password = request.getParameter("password");				
 		User user = daoUser.getByID(login,"en");		
@@ -65,11 +66,13 @@ public class AuthenticationController extends HttpServlet {
 				response.sendRedirect(request.getContextPath());
 			}
 	}
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
 		req.getRequestDispatcher(LIST_SHIP).forward(req, resp);
+	//	req.getSession().removeAttribute("message");
+		req.getSession().removeAttribute("errorMessage");
 	}
 
 
