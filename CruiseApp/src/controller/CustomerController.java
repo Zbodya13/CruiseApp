@@ -58,27 +58,28 @@ public class CustomerController extends HttpServlet {
 		String action =  request.getParameter("action");
 		
 		if(action.equals("listShips")) 
-		{					
+		{								
 			request.getRequestDispatcher(LIST_SHIP).forward(request, response);
-			request.getSession().removeAttribute("error");
+			request.getSession().setAttribute("error", "null");	
 		}
 		else if(action.equals("listBy")) 
-		{			
+		{				
 			request.setAttribute("ships", daoShip.getAllOrder(locale,request.getParameter("orderBy")));
 			request.getRequestDispatcher(LIST_SHIP).forward(request, response);
 						
 		}else if(action.equals("listUserBy")) 
-		{						
+		{				
 			request.setAttribute("userShips", daoShip.getAllUser(locale,request.getParameter("orderBy"),login));
 			request.getRequestDispatcher(LIST_USER_SHIPS).forward(request, response);
 						
 		}else if(action.equals("listExcursions")) 
-		{					
+		{				
 			service.excListByPages(request, locale);
-			request.getRequestDispatcher( LIST_EXCURSIONS).forward(request, response);			
+			request.getRequestDispatcher( LIST_EXCURSIONS).forward(request, response);		
+			request.getSession().setAttribute("error", "null");	
 		}
 		else if(action.equals("availableListExcursions")) 
-		{			 		
+		{				
 			List<Excursion> excursions = new ArrayList<>();
 			List<String> ids = daoShip.getAllUserShipID(login);
 			for(String id : ids) 
@@ -96,21 +97,21 @@ public class CustomerController extends HttpServlet {
 			request.getRequestDispatcher(AVAILABLE_LIST_EXCURSIONS).forward(request, response);			
 		}
 		else if(action.equals("buyShip")) 
-		{
-			try {
+		{			
+			try {				
 				service.buyShip(request, response, login, locale);
 			} catch (SQLException e) 
 			{
-				request.getSession().setAttribute("error", "Something wrong with transaction");
+				request.getSession().setAttribute("error", "wrong_trans");
 				response.sendRedirect("?action=buyShip&sessionLocale=" + locale);			
 			}
 		}
 		else if(action.equals("buyExcursion")) 
-		{
-			try {
+		{			
+			try {				
 				service.buyExcursion(request, response, login, locale);
 			} catch (SQLException e) {
-				request.getSession().setAttribute("error", "Something wrong with transaction");
+				request.getSession().setAttribute("error", "wrong_trans");
 				response.sendRedirect("?action=buyExcursion&sessionLocale=" + locale);			
 			}
 		}
@@ -118,28 +119,32 @@ public class CustomerController extends HttpServlet {
 		{				
 			request.setAttribute("userExcursions", daoExc.getAllUser(locale, login));
 			request.getRequestDispatcher(LIST_USER_EXCURSIONS).forward(request, response);		
+			request.getSession().setAttribute("message", "null");	
 		}
 		else if(action.equals("userListShips")) 
-		{			
+		{					
 			request.setAttribute("userShips",daoShip.getAllUser(locale,"capacity",login));
-			request.getRequestDispatcher(LIST_USER_SHIPS).forward(request, response);			
+			request.getRequestDispatcher(LIST_USER_SHIPS).forward(request, response);	
+			request.getSession().setAttribute("message", "null");	
 		}
 		else if(action.equals("revokeShip")) 
-		{										
+		{				
 			try {
+				request.getSession().setAttribute("message", "revoke_ship");
 				service.revokeShip(request, response, u, login, locale);
 			} catch (SQLException e) 
 			{
-				request.getSession().setAttribute("error", "Something wrong with transaction");
+				request.getSession().setAttribute("error", "wrong_trans");
 				response.sendRedirect("?action=revokeShip&sessionLocale=" + locale);			
 			}
 		}
 		else if(action.equals("revokeExcursion")) 
 		{				
 			try {
+				request.getSession().setAttribute("message", "revoke_exc");
 				service.revokeExcursion(request, response, u, login, locale);
 			} catch (SQLException e) {
-				request.getSession().setAttribute("error", "Something wrong with transaction");
+				request.getSession().setAttribute("error", "wrong_trans");
 				response.sendRedirect("?action=revokeExcursion&sessionLocale=" + locale);			
 			}
 		}		
@@ -148,7 +153,7 @@ public class CustomerController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{		
 		String action =  request.getParameter("action");
-		String locale= request.getParameter("sessionLocale");
+		String locale= request.getParameter("sessionLocale");	
 		if(action.equals("addCash")) 
 		{
 			try 
@@ -171,17 +176,17 @@ public class CustomerController extends HttpServlet {
 			{				
 				if(request.getParameter("page").equals("ship"))
 				{
-				request.getSession().setAttribute("error", "Invalid data");
+				request.getSession().setAttribute("error", "invalid_data");
 				request.getRequestDispatcher(LIST_SHIP).forward(request, response);
 				}
 				else if(request.getParameter("page").equals("exc"))
 				{
-				request.getSession().setAttribute("error", "Invalid data");
+				request.getSession().setAttribute("error", "invalid_data");
 				request.getRequestDispatcher(LIST_EXCURSIONS).forward(request, response);
 				}
 			} catch (SQLException e) 
 			{
-				request.getSession().setAttribute("error", "Something wrong with transaction");
+				request.getSession().setAttribute("error", "wrong_trans");
 				response.sendRedirect("?action=listShips&sessionLocale=" + locale);			
 			}
 		}

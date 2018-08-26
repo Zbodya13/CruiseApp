@@ -7,15 +7,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import DAO.DAOShip;
 import DAO.DAOUser;
 import model.User;
 
 
 @WebServlet("/auth")
 public class AuthenticationController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private static String LIST_SHIP = "/admin/shipsAdmin.jsp";
+	private static final long serialVersionUID = 1L;	
 	private static String LIST_SHIP_EN = "/admin/adminShip?action=list&sessionLocale=en";
 	private static String LIST_SHIP_UA = "/admin/adminShip?action=list&sessionLocale=ua";
 	private static String CUSTOM_UA = "/customUser?action=listShips&sessionLocale=ua";
@@ -32,9 +30,12 @@ public class AuthenticationController extends HttpServlet {
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{	
-		request.getSession().removeAttribute("message");
-		request.getSession().removeAttribute("errorMessage");
-		request.getSession().setAttribute("sessionLocale", "ua");			
+		request.getSession().setAttribute("message", "null");
+		request.getSession().setAttribute("errorMessage", "null");
+		if(request.getSession().getAttribute("sessionLocale")==null) 
+		{
+			request.getSession().setAttribute("sessionLocale", "ua");		
+		}
 		String login =  request.getParameter("login");
 		String password = request.getParameter("password");				
 		User user = daoUser.getByID(login,"en");		
@@ -62,17 +63,18 @@ public class AuthenticationController extends HttpServlet {
 			}
 		else 
 			{	
-				request.getSession().setAttribute("errorMessage", "Invalid login or password");
-				response.sendRedirect(request.getContextPath());
+				request.getSession().setAttribute("errorMessage", "invalid_form");
+			//	response.sendRedirect(request.getContextPath());
+				request.getRequestDispatcher("view/index.jsp").forward(request, response);
 			}
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
-		req.getRequestDispatcher(LIST_SHIP).forward(req, resp);
-	//	req.getSession().removeAttribute("message");
-		req.getSession().removeAttribute("errorMessage");
+		req.getRequestDispatcher(AUTH).forward(req, resp);
+		req.getSession().setAttribute("message", "null");
+		req.getSession().setAttribute("errorMessage", "null");		
 	}
 
 

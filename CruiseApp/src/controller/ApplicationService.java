@@ -164,7 +164,7 @@ public class ApplicationService
 						daoUShip.update(us,locale);
 					} catch (SQLException e) 
 					{
-						request.getSession().setAttribute("error", "Something wrong with transaction");
+						request.getSession().setAttribute("error", "wrong_trans");
 						response.sendRedirect("?action=listShips&sessionLocale=" + locale);
 					}		
 					if(locale.equals("en")) 
@@ -219,15 +219,16 @@ public class ApplicationService
 					daoUShip.add(uShip,locale);
 				} catch (SQLException e) 
 				{				
-					request.getSession().setAttribute("error", "Something wrong with transaction");
-					response.sendRedirect("?action=listShips&sessionLocale=" + locale);
+					request.getSession().setAttribute("error", "wrong_trans");
+					response.sendRedirect("?action=userListShips&sessionLocale=" + locale);
 				}		
 			}
-			response.sendRedirect("?action=listShips&sessionLocale=" + locale);
+			request.getSession().setAttribute("message", "buy_ship");
+			response.sendRedirect("?action=userListShips&sessionLocale=" + locale);
 
 		}else 
 		{
-			request.getSession().setAttribute("error", "You havent money");
+			request.getSession().setAttribute("error", "no_money");
 			response.sendRedirect("?action=listShips&sessionLocale=" + locale);
 		}
 	}
@@ -295,12 +296,13 @@ public class ApplicationService
 				}	
 				daoUExc.add(uExc,locale);							
 			}
+			request.getSession().setAttribute("message", "buy_exc");
 			response.sendRedirect("?action=userListExcursions&sessionLocale=" + locale);
 		}
 		else 
 		{
-			request.getSession().setAttribute("error", "You havent money");
-			response.sendRedirect("?action=userListExcursions&sessionLocale=" + locale);
+			request.getSession().setAttribute("error", "no_money");
+			response.sendRedirect("?action=listExcursions&sessionLocale=" + locale);
 		}
 	}
 	
@@ -339,7 +341,7 @@ public class ApplicationService
 			daoUShip.delete(request.getParameter("shipID"),login);
 		} catch (SQLException e) 
 		{
-			request.getSession().setAttribute("error", "Something wrong with transaction");
+			request.getSession().setAttribute("error", "wrong_trans");
 			response.sendRedirect("?action=userListShips&sessionLocale=" + locale);			
 		}		
 		response.sendRedirect("?action=userListShips&sessionLocale=" + locale);

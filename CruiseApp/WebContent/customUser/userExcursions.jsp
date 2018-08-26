@@ -75,7 +75,12 @@
 
 <div class="col-xs-4">
 <div class="alert alert-danger" role="alert">
-   ${sessionScope.error}
+   <fmt:message key="${sessionScope.error}" />  
+</div></div>
+
+<div class="col-xs-4">
+<div class="alert alert-success" role="alert">
+   <fmt:message key="${sessionScope.message}" />  
 </div></div>
 
 

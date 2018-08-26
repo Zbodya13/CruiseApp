@@ -58,6 +58,7 @@ public class AdminShipController extends HttpServlet {
 		else if(action.equals("list"))
 		{							
 			request.getRequestDispatcher(LIST_SHIP).forward(request, response);
+			request.getSession().setAttribute("error", "null");
 		}
 		else if(action.equals("listBy")) 
 		{
@@ -87,19 +88,19 @@ public class AdminShipController extends HttpServlet {
 				}
 				if(checkShip) 
 				{
-					request.getSession().setAttribute("error", "Ship with same shipID already used");
+					request.getSession().setAttribute("error", "same_ship");
 					request.getRequestDispatcher(CREATE_SHIP).forward(request, response);
 				}
 				else 
 				{
 					service.makeShip(request, locale);
-					request.getSession().removeAttribute("error");  
+					request.getSession().setAttribute("error", "null"); 
 					response.sendRedirect(request.getContextPath() + "/admin/adminShip?action=list");
 				}
 				
 			}catch (NullPointerException |NumberFormatException |ParseException e) 
 			{
-				request.getSession().setAttribute("error", "Invalid data");
+				request.getSession().setAttribute("error", "invalid_data");
 				request.getRequestDispatcher(CREATE_SHIP).forward(request, response);		
 			}			
 		}	
@@ -112,11 +113,12 @@ public class AdminShipController extends HttpServlet {
 			{
 				String shipID = request.getParameter("shipID");				
 				Ship shipExc = daoShip.getByID(shipID,(String) request.getSession().getAttribute("sessionLocale"));	
-				request.getSession().setAttribute("error", "Invalid data");
+				request.getSession().setAttribute("error", "invalid_data");
 			    request.setAttribute("ship",shipExc);
-				request.getRequestDispatcher(EDIT_SHIP).forward(request, response);			
+				request.getRequestDispatcher(EDIT_SHIP).forward(request, response);	
+				request.getSession().setAttribute("error", "null");
 			} 
-			request.getSession().removeAttribute("error");  
+			request.getSession().setAttribute("error","null");  
 			response.sendRedirect(request.getContextPath() + "/admin/adminShip?action=list");
 		}			
 		

@@ -34,13 +34,13 @@ public class RegistrationController extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{		
+		request.getSession().setAttribute("message", "null");		
 		request.getRequestDispatcher(REGISTER).forward(request, response);
 	}
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-	{	
-	request.getSession().removeAttribute("errorMessage");
+	{		
 	checkUser=true;	
 	try
 		{
@@ -59,24 +59,26 @@ public class RegistrationController extends HttpServlet {
 				match.validateField(Matcher.uaPattern, new String(request.getParameter("name_ua").getBytes("iso-8859-1"), "utf-8"));
 				match.validateField(Matcher.uaPattern, new String(request.getParameter("surname_ua").getBytes("iso-8859-1"), "utf-8"));
 				match.validateField(Matcher.cashPattern, request.getParameter("cash"));
-				service.makeUser(request);
-				request.getSession().removeAttribute("error");  
-				request.getSession().setAttribute("message", "User was registrate");
-				response.sendRedirect(request.getContextPath() + "/auth");				
+				service.makeUser(request);				 
+				request.getSession().setAttribute("message", "user_registr");
+				response.sendRedirect(request.getContextPath() + "/auth");					 
 			}else 
 			{
-				request.getSession().setAttribute("error", "User with same login already used");		   
+				request.getSession().setAttribute("error", "user_login");		   
 				request.getRequestDispatcher(REGISTER).forward(request, response);			
+				request.getSession().setAttribute("error", "null");	
 			}
 			}catch (SQLException e) 
 			{
-				request.getSession().setAttribute("error", "Something wrong with transaction");		   
+				request.getSession().setAttribute("error", "wrong_trans");		   
 				request.getRequestDispatcher(REGISTER).forward(request, response);	
+				request.getSession().setAttribute("error", "null");	
 			}
 		}catch (NullPointerException | NumberFormatException | IOException e) 
 		{			
-			request.getSession().setAttribute("error", "Invalid data");		   
-			request.getRequestDispatcher(REGISTER).forward(request, response);			
+			request.getSession().setAttribute("error", "invalid_data");		   
+			request.getRequestDispatcher(REGISTER).forward(request, response);	
+			request.getSession().setAttribute("error", "null");		
 		} 
 		
 	}

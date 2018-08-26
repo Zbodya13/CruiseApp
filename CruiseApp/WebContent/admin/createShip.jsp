@@ -76,7 +76,7 @@
 </form>
 <div class="col-xs-4">
 <div class="alert alert-danger" role="alert">
-   ${sessionScope.error}
+   <fmt:message key="${sessionScope.error}" />  
 </div></div>
 </div>
 </body>

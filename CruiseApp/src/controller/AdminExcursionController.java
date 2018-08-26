@@ -56,7 +56,7 @@ public class AdminExcursionController extends HttpServlet {
 			try {
 				daoExc.delete(excursionID);
 			} catch (SQLException e) {
-				request.getSession().setAttribute("error", "Something wrong with transaction");
+				request.getSession().setAttribute("error", "wrong_trans");
 				response.sendRedirect("?action=delete&sessionLocale=" + locale);			
 			}
 			request.getRequestDispatcher(LIST_EXC).forward(request, response);
@@ -65,6 +65,7 @@ public class AdminExcursionController extends HttpServlet {
 		else if(action.equals("list"))
 		{							
 			request.getRequestDispatcher(LIST_EXC).forward(request, response);
+			request.getSession().setAttribute("error", "null");
 		}else if(action.equals("createShipExc")) 
 		{						
 			request.getRequestDispatcher(SHIP_EXC).forward(request, response);
@@ -90,21 +91,21 @@ public class AdminExcursionController extends HttpServlet {
 				}
 				if(checkExcursion) 
 				{
-					request.getSession().setAttribute("error", "Excursion with same excursionID already used");
+					request.getSession().setAttribute("error", "same_exc");
 					response.sendRedirect("?action=create&sessionLocale=" + locale);	
 				}
 				else 
 				{
 					service.makeExcursion(request, locale);
-					request.getSession().removeAttribute("error"); 
+					request.getSession().setAttribute("error","null"); 					
 					response.sendRedirect(request.getContextPath() + "/admin/adminExcursion?action=list");		
 				}				
 			}catch (NullPointerException |NumberFormatException  e) 
 			{
-				request.getSession().setAttribute("error", "Invalid data");
+				request.getSession().setAttribute("error", "invalid_data");
 				request.getRequestDispatcher(CREATE_EXC).forward(request, response);		
 			} catch (SQLException e) {
-				request.getSession().setAttribute("error", "Something wrong with transaction");
+				request.getSession().setAttribute("error", "wrong_trans");
 				response.sendRedirect("?action=create&sessionLocale=" + locale);	
 			}
 			
@@ -118,14 +119,14 @@ public class AdminExcursionController extends HttpServlet {
 			{
 				String excID = request.getParameter("excursionID");				
 				Excursion excEx = daoExc.getByID(excID,locale);	
-				request.getSession().setAttribute("error", "Invalid data");
+				request.getSession().setAttribute("error", "invalid_data");
 			    request.setAttribute("exc",excEx);
 				request.getRequestDispatcher(EDIT_EXC).forward(request, response);			
 			} catch (SQLException e) {
-				request.getSession().setAttribute("error", "Something wrong with transaction");
+				request.getSession().setAttribute("error", "wrong_trans");
 				response.sendRedirect("?action=edit&sessionLocale=" + locale);	
 			}
-			request.getSession().removeAttribute("error"); 
+			request.getSession().setAttribute("error","null"); 
 			response.sendRedirect(request.getContextPath() + "/admin/adminExcursion?action=list");		
 		}
 		else if(action.equals("createShipExc")) 
@@ -136,10 +137,10 @@ public class AdminExcursionController extends HttpServlet {
 			try {
 				daoSE.add(se, locale);
 			} catch (SQLException e) {
-				request.getSession().setAttribute("error", "Something wrong with transaction");
+				request.getSession().setAttribute("error", "wrong_trans");
 				response.sendRedirect("?action=list&sessionLocale=" + locale);			
 			}
-			request.getSession().removeAttribute("error"); 
+			request.getSession().setAttribute("error","null"); 
 			response.sendRedirect(request.getContextPath() + "/admin/adminExcursion?action=list");		
 		}			
 	}
