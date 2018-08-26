@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import DAO.DAOExcursion;
 import DAO.DAOShip;
 import DAO.DAOUExc;
@@ -34,6 +36,7 @@ public class CustomerController extends HttpServlet {
 	private DAOShip daoShip;
 	private  DAOUser daoUser;
 	private ApplicationService service;
+	private static final Logger log = Logger.getLogger(CustomerController.class);
 
 
 	private DAOExcursion daoExc;
@@ -100,19 +103,23 @@ public class CustomerController extends HttpServlet {
 		{			
 			try {				
 				service.buyShip(request, response, login, locale);
+				log.info("Ship was bought");
 			} catch (SQLException e) 
 			{
 				request.getSession().setAttribute("error", "wrong_trans");
-				response.sendRedirect("?action=buyShip&sessionLocale=" + locale);			
+				response.sendRedirect("?action=buyShip&sessionLocale=" + locale);	
+				log.info("Problem with buying ship");
 			}
 		}
 		else if(action.equals("buyExcursion")) 
 		{			
 			try {				
 				service.buyExcursion(request, response, login, locale);
+				log.info("Excursion was bought");
 			} catch (SQLException e) {
 				request.getSession().setAttribute("error", "wrong_trans");
-				response.sendRedirect("?action=buyExcursion&sessionLocale=" + locale);			
+				response.sendRedirect("?action=buyExcursion&sessionLocale=" + locale);	
+				log.info("Problem with buying excursion");
 			}
 		}
 		else if(action.equals("userListExcursions")) 
@@ -132,8 +139,10 @@ public class CustomerController extends HttpServlet {
 			try {
 				request.getSession().setAttribute("message", "revoke_ship");
 				service.revokeShip(request, response, u, login, locale);
+				log.info("Ship was revoked");
 			} catch (SQLException e) 
 			{
+				log.info("Problem with revoking a ship");
 				request.getSession().setAttribute("error", "wrong_trans");
 				response.sendRedirect("?action=revokeShip&sessionLocale=" + locale);			
 			}
@@ -143,7 +152,9 @@ public class CustomerController extends HttpServlet {
 			try {
 				request.getSession().setAttribute("message", "revoke_exc");
 				service.revokeExcursion(request, response, u, login, locale);
+				log.info("Excursion was revoked");
 			} catch (SQLException e) {
+				log.info("Problem with revoking an excursion");
 				request.getSession().setAttribute("error", "wrong_trans");
 				response.sendRedirect("?action=revokeExcursion&sessionLocale=" + locale);			
 			}
@@ -160,6 +171,7 @@ public class CustomerController extends HttpServlet {
 			{					
 			User user;
 			String login = service.addCash(request);
+			log.info("Money was added");
 			if(request.getParameter("page").equals("ship"))
 			{				
 				user = daoUser.getByID(login,locale);
@@ -173,7 +185,8 @@ public class CustomerController extends HttpServlet {
 
 			}
 			}catch(NumberFormatException e) 
-			{				
+			{	
+				log.info("Problem with adding money");
 				if(request.getParameter("page").equals("ship"))
 				{
 				request.getSession().setAttribute("error", "invalid_data");

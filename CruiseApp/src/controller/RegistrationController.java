@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import DAO.DAOUser;
 import model.User;
 import service.Matcher;
@@ -23,6 +25,8 @@ public class RegistrationController extends HttpServlet {
 	private DAOUser daoUser;
 	boolean checkUser;
 	Matcher match;
+	private static final Logger log = Logger.getLogger(RegistrationController.class);
+	
     public RegistrationController() 
     {
         super();       
@@ -61,24 +65,28 @@ public class RegistrationController extends HttpServlet {
 				match.validateField(Matcher.cashPattern, request.getParameter("cash"));
 				service.makeUser(request);				 
 				request.getSession().setAttribute("message", "user_registr");
-				response.sendRedirect(request.getContextPath() + "/auth");					 
+				response.sendRedirect(request.getContextPath() + "/auth");			
+				log.info("New user was added");
 			}else 
 			{
 				request.getSession().setAttribute("error", "user_login");		   
 				request.getRequestDispatcher(REGISTER).forward(request, response);			
 				request.getSession().setAttribute("error", "null");	
+				log.info("Warning!Trying to add user with same name");
 			}
 			}catch (SQLException e) 
 			{
 				request.getSession().setAttribute("error", "wrong_trans");		   
 				request.getRequestDispatcher(REGISTER).forward(request, response);	
 				request.getSession().setAttribute("error", "null");	
+				log.info("Warning! Problem with sql transactions during adding a new user");
 			}
 		}catch (NullPointerException | NumberFormatException | IOException e) 
 		{			
 			request.getSession().setAttribute("error", "invalid_data");		   
 			request.getRequestDispatcher(REGISTER).forward(request, response);	
-			request.getSession().setAttribute("error", "null");		
+			request.getSession().setAttribute("error", "null");	
+			log.info("Warning! Invalid input data during adding a new user ");
 		} 
 		
 	}
