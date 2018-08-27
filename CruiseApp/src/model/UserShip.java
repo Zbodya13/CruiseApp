@@ -1,5 +1,10 @@
 package model;
 
+/**
+ *  Entity class for relation users-ships.
+ */
+
+
 public class UserShip 
 {
 	private String login;

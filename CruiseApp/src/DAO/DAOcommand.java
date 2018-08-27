@@ -3,6 +3,10 @@ package DAO;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ *  Parent DAO class for working with database.
+ */
+
 public interface DAOcommand <T>
 {
 	public void add(T t, String locale) throws SQLException;

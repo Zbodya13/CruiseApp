@@ -23,6 +23,10 @@ import model.User;
 import model.UserExcursion;
 import model.UserShip;
 
+/**
+ * This service-class consist methods for working and manipulate with projects entities.
+ */
+
 public class ApplicationService 
 {
 	private DAOUser daoUser;
@@ -31,6 +35,8 @@ public class ApplicationService
 	private DAOUShip daoUShip;
 	private DAOUExc daoUExc;
 	
+	
+
 	public ApplicationService() 
 	{	
 		daoExc = new DAOExcursion();

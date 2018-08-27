@@ -1,5 +1,9 @@
 package model;
 
+/**
+ *  Entity class for excursion.
+ */
+
 public class Excursion {
 
 	private String excursionID;

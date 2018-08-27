@@ -1,5 +1,10 @@
 package model;
 
+/**
+ *  Entity class for relation ships-excursions.
+ */
+
+
 public class ShipExcursion 
 {
 	private String shipID;

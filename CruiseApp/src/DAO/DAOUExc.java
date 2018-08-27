@@ -12,6 +12,10 @@ import model.Excursion;
 import model.UserExcursion;
 import service.DBConnection;
 
+/**
+ *  DAO class for working with User-Excursions database.
+ */
+
 public class DAOUExc implements DAOcommand<UserExcursion>
 {
 

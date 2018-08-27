@@ -12,6 +12,10 @@ import model.ShipExcursion;
 import model.UserExcursion;
 import service.DBConnection;
 
+/**
+ *  DAO class for working with Ships-Excursions database.
+ */
+
 public class DAOShipExc implements DAOcommand<ShipExcursion>
 {
 	private Connection connection = null;

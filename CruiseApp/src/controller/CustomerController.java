@@ -25,6 +25,11 @@ import model.User;
 import model.UserExcursion;
 import model.UserShip;
 
+
+/**
+ *  This class-controller offer to customer users all services for interact with cruise firm.
+ */
+
 @WebServlet("/customUser")
 public class CustomerController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

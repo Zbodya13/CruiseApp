@@ -14,6 +14,10 @@ import DAO.DAOUser;
 import model.User;
 
 
+/**
+ *  Filter class for changing locale.
+ */
+
 @WebFilter("/*")
 public class SessionLocaleFilter implements Filter {
 

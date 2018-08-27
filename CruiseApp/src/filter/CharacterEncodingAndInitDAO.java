@@ -12,6 +12,9 @@ import javax.servlet.annotation.WebFilter;
 import DAO.DAOExcursion;
 import DAO.DAOShip;
 
+/**
+ *  Filter class for setting character encoding and redirect all ships and excursions to pages.
+ */
 
 @WebFilter("/*")
 public class CharacterEncodingAndInitDAO implements Filter {
@@ -23,7 +26,7 @@ public class CharacterEncodingAndInitDAO implements Filter {
 	 {		
 		    DAOShip daoShip = new DAOShip();	
 		    DAOExcursion daoExc = new DAOExcursion();
-		   
+		    
 		    if(request.getParameter("sessionLocale")!=null)
 		    {		    	
 		    	request.setAttribute("ships", daoShip.getAll(request.getParameter("sessionLocale")));			    	

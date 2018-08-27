@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import DAO.DAOShip;
 import model.Ship;
 
+/**
+ * This class-controller provide admins CRUD operations with Ships.
+ */
+
 
 @WebServlet("/admin/adminShip")
 public class AdminShipController extends HttpServlet {
@@ -24,8 +28,7 @@ public class AdminShipController extends HttpServlet {
     private ApplicationService service;
     boolean checkShip;
    
-    
-    
+
     public AdminShipController() {
         super();
         daoShip = new DAOShip();

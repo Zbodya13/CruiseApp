@@ -15,6 +15,10 @@ import model.Excursion;
 import model.User;
 import service.DBConnection;
 
+/**
+ *  DAO class for working with Excursions database.
+ */
+
 public class DAOExcursion implements DAOcommand<Excursion>
 {
 	private Connection connection = null;	

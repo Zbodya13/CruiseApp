@@ -17,6 +17,10 @@ import model.User;
 import service.Matcher;
 
 
+/**
+ * This class register new users for cruise app.
+ */
+
 @WebServlet("/register")
 public class RegistrationController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -25,7 +29,8 @@ public class RegistrationController extends HttpServlet {
 	private DAOUser daoUser;
 	boolean checkUser;
 	Matcher match;
-	private static final Logger log = Logger.getLogger(RegistrationController.class);
+	private static final Logger log = Logger.getLogger(RegistrationController.class);	
+	
 	
     public RegistrationController() 
     {

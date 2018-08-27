@@ -13,6 +13,10 @@ import model.UserExcursion;
 import model.UserShip;
 import service.DBConnection;
 
+/**
+ *  DAO class for working with Users-Ships database.
+ */
+
 public class DAOUShip implements DAOcommand<UserShip>
 {
 

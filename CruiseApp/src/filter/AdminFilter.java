@@ -15,6 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.User;
 
+
+/**
+ *  Filter class for protect admin pages from illegal access.
+ */
+
 @WebFilter(urlPatterns= {"/admin/*"},
 		dispatcherTypes = {
 		DispatcherType.REQUEST, 
@@ -49,6 +54,7 @@ public class AdminFilter implements Filter {
 		}
 		else 
 		{
+			req.getSession().setAttribute("errorMessage", "Access denied! You are not admin!");		
 			res.sendRedirect("http://localhost:8080/CruiseApp/");
 		}
 	}

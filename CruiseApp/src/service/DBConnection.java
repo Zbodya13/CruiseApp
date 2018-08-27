@@ -9,7 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
-
+/**
+ *  Class for connection to application database.
+ */
 
 public class DBConnection {
 	
@@ -24,13 +26,13 @@ public class DBConnection {
 	                InputStream inputStream = DBConnection.class.getClassLoader().getResourceAsStream("/db.properties");
 	                prop.load(inputStream);
 	                String driver = prop.getProperty("driver");
-	                String url = prop.getProperty("url");
-	                String user = prop.getProperty("user");
-	                String password = prop.getProperty("password"); 
+	                String url = prop.getProperty("url");	                
 	                prop.setProperty("useUnicode","true");
 	                prop.setProperty("characterEncoding","UTF-8");
-	                Class.forName(driver);
-	                connection = DriverManager.getConnection(url, prop);	                
+	                Class.forName(driver); 
+	                connection = DriverManager.getConnection(url, prop);	          
+	 /*           	Class.forName("com.mysql.jdbc.Driver");
+	            	connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/CruiseDB","root", "root"); */
 	            } catch (ClassNotFoundException e) {
 	                e.printStackTrace();
 	            } catch (SQLException e) {

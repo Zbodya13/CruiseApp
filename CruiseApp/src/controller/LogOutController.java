@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+/**
+ *	This class-controller log out users from app.
+ */
+
 @WebServlet("/logout")
 public class LogOutController extends HttpServlet {
 	private static final long serialVersionUID = 1L;

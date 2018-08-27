@@ -1,5 +1,10 @@
 package model;
 
+/**
+ *  Entity class for users.
+ */
+
+
 public class User 
 {
 

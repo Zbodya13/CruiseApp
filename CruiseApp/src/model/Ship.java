@@ -2,6 +2,11 @@ package model;
 
 import java.util.Date;
 
+/**
+ *  Entity class for ships.
+ */
+
+
 public class Ship 
 {
 	private String shipID;

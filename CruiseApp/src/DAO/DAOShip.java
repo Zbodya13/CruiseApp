@@ -11,6 +11,10 @@ import java.util.List;
 import model.Ship;
 import service.DBConnection;
 
+/**
+ *  DAO class for working with Ships database.
+ */
+
 public class DAOShip implements DAOcommand<Ship>
 {
 	private Connection connection = null;

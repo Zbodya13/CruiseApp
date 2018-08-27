@@ -1,5 +1,10 @@
 package model;
 
+/**
+ *  Entity class for relation users-excursions.
+ */
+
+
 public class UserExcursion 
 {
 	private String login;

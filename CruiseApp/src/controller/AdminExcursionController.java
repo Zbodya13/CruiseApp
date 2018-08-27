@@ -15,6 +15,10 @@ import DAO.DAOShipExc;
 import model.Excursion;
 import model.ShipExcursion;
 
+/**
+ * This class-controller provide admins CRUD operations with Excursions.
+ */
+
 @WebServlet("/admin/adminExcursion")
 public class AdminExcursionController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -27,6 +31,7 @@ public class AdminExcursionController extends HttpServlet {
     private ApplicationService service;
     boolean checkExcursion;
     
+
     public AdminExcursionController() {
         super();
         daoExc = new DAOExcursion();

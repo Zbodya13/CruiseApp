@@ -15,6 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.User;
 
+/**
+ *  Filter class for protect custom users private pages from illegal access.
+ */
+
 @WebFilter(urlPatterns= {"/customUser/*"},
 dispatcherTypes = {
 DispatcherType.REQUEST, 

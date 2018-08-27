@@ -12,6 +12,11 @@ import java.util.Locale;
 import model.User;
 import service.DBConnection;
 
+/**
+ *  DAO class for working with Users database.
+ */
+
+
 public class DAOUser implements DAOcommand<User>
 {
 	private Connection connection = null;
@@ -78,7 +83,7 @@ public class DAOUser implements DAOcommand<User>
 			preparedStatement.executeUpdate();	
 			connection.commit();
 		}catch(SQLException e) 
-		{
+		{ 
 			e.printStackTrace();
 			connection.rollback();
 		}
@@ -146,11 +151,11 @@ public class DAOUser implements DAOcommand<User>
 
 	@Override
 	public List<User> getAll(String locale)
-	{	
+	{			
 		List<User> usersUA = new ArrayList<User>();
         try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from usersua");
+            PreparedStatement statement = connection.prepareStatement("select * from usersua");
+            ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 User userUA = new User();
                 userUA.setLogin(rs.getString("login"));
@@ -165,7 +170,7 @@ public class DAOUser implements DAOcommand<User>
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+		
         List<User> usersEN = new ArrayList<User>();
         try {
             Statement statement = connection.createStatement();
