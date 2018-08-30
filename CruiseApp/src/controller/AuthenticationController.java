@@ -81,7 +81,8 @@ public class AuthenticationController extends HttpServlet {
 			req.getSession().setAttribute("message", "null");
 			req.getSession().setAttribute("errorMessage", "null");
 			req.getRequestDispatcher(AUTH).forward(req, resp);			
-		}else 
+		}
+		else if(req.getParameter("action").equals("error"))
 		{
 		req.getRequestDispatcher(AUTH).forward(req, resp);
 		req.getSession().setAttribute("message", "null");

@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import model.User;
 import service.DBConnection;
@@ -150,9 +151,9 @@ public class DAOUser implements DAOcommand<User>
 	}
 
 	@Override
-	public List<User> getAll(String locale)
+	public CopyOnWriteArrayList<User> getAll(String locale)
 	{			
-		List<User> usersUA = new ArrayList<User>();
+		CopyOnWriteArrayList<User> usersUA = new CopyOnWriteArrayList<User>();
         try {
             PreparedStatement statement = connection.prepareStatement("select * from usersua");
             ResultSet rs = statement.executeQuery();
@@ -171,7 +172,7 @@ public class DAOUser implements DAOcommand<User>
             e.printStackTrace();
         }
 		
-        List<User> usersEN = new ArrayList<User>();
+        CopyOnWriteArrayList<User> usersEN = new CopyOnWriteArrayList<User>();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from usersen");

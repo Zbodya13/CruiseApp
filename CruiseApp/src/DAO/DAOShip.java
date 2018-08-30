@@ -1,12 +1,12 @@
 package DAO;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import model.Ship;
 import service.DBConnection;
@@ -17,12 +17,16 @@ import service.DBConnection;
 
 public class DAOShip implements DAOcommand<Ship>
 {
-	private Connection connection = null;
+	private Connection connection = null;	
 	
 	public DAOShip() 
 	{
-		connection = DBConnection.getConnection();
+		connection = DBConnection.getConnection();	    
 	}
+	
+	
+    
+	
 	@Override
 	public void add(Ship t, String locale) 
 	{
@@ -108,8 +112,7 @@ public class DAOShip implements DAOcommand<Ship>
 			preparedStatement.setString(6, t.getStaff());			
 			preparedStatement.setString(7, t.getType());
 			preparedStatement.setInt(8, t.getPrice());
-			preparedStatement.setString(9, t.getServices());	
-			System.out.println(t.getDeparture().getTime());
+			preparedStatement.setString(9, t.getServices());				
 			preparedStatement.setDate(10, new java.sql.Date(t.getDeparture().getTime()));
 			preparedStatement.setString(11, t.getShipID());
 			preparedStatement.executeUpdate();
@@ -130,8 +133,8 @@ public class DAOShip implements DAOcommand<Ship>
 			preparedStatement.setString(6, t.getStaff());			
 			preparedStatement.setString(7, t.getType());
 			preparedStatement.setInt(8, t.getPrice());
-			preparedStatement.setString(9, t.getServices());
-			System.out.println(t.getDeparture().getTime());
+			preparedStatement.setString(9, t.getServices());			
+			System.out.println(t.getDeparture());
 			preparedStatement.setDate(10, new java.sql.Date(t.getDeparture().getTime()));
 			preparedStatement.setString(11, t.getShipID());
 			preparedStatement.executeUpdate();
@@ -143,12 +146,12 @@ public class DAOShip implements DAOcommand<Ship>
 	}
 
 	@Override
-	public List<Ship> getAll(String locale) 
+	public CopyOnWriteArrayList<Ship> getAll(String locale) 
 	{
-		List<Ship> shipsUA = new ArrayList<Ship>();
+		CopyOnWriteArrayList<Ship> shipsUA = new CopyOnWriteArrayList<Ship>();
         try {        	
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from shipsua");
+            ResultSet rs = statement.executeQuery("select * from shipsua where capacity> 0");
             while (rs.next()) {
                 Ship shipUA = new Ship();
                 shipUA.setShipID(rs.getString("shipID"));
@@ -166,10 +169,10 @@ public class DAOShip implements DAOcommand<Ship>
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        List<Ship> shipsEN = new ArrayList<Ship>();
+        CopyOnWriteArrayList<Ship> shipsEN = new CopyOnWriteArrayList<Ship>();
         try {        	
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from shipsen");
+            ResultSet rs = statement.executeQuery("select * from shipsen where capacity> 0");
             while (rs.next()) {
                 Ship shipEN = new Ship();
                 shipEN.setShipID(rs.getString("shipID"));
@@ -257,39 +260,39 @@ public class DAOShip implements DAOcommand<Ship>
 	        
 	        
 	}
-	public List<Ship> getAllOrder(String locale, String orderBy) 
+	public CopyOnWriteArrayList<Ship> getAllOrder(String locale, String orderBy) 
 	{
-		String queryua = "select * from shipsua";
-		List<Ship> shipsUA = new ArrayList<Ship>();
+		String queryua = "select * from shipsua where capacity> 0";
+		CopyOnWriteArrayList<Ship> shipsUA = new CopyOnWriteArrayList<Ship>();
         try {        	            
             switch(orderBy) 
             {
             case "capacity":
-            	queryua = "select * from shipsua order by capacity";
+            	queryua = "select * from shipsua where capacity> 0 order by capacity";
             	break;
             case "route":
-            	queryua = "select * from shipsua order by route";
+            	queryua = "select * from shipsua where capacity> 0 order by route";
             	break;
             case "countPort":
-            	queryua = "select * from shipsua order by countPort";
+            	queryua = "select * from shipsua where capacity> 0 order by countPort";
             	break;
             case "duration":
-            	queryua = "select * from shipsua order by duration";
+            	queryua = "select * from shipsua where capacity> 0 order by duration";
             	break;
             case "staff":
-            	queryua = "select * from shipsua order by staff";
+            	queryua = "select * from shipsua where capacity> 0 order by staff";
             	break;
             case "type":
-            	queryua = "select * from shipsua order by type;";
+            	queryua = "select * from shipsua where capacity> 0 order by type;";
             	break;
             case "price":
-            	queryua = "select * from shipsua order by price";
+            	queryua = "select * from shipsua where capacity> 0 order by price";
             	break;
             case "services":
-            	queryua = "select * from shipsua order by services";
+            	queryua = "select * from shipsua where capacity> 0 order by services";
             	break;
             case "departure":
-            	queryua = "select * from shipsua order by departure";
+            	queryua = "select * from shipsua where capacity> 0 order by departure";
             	break;
             }
             Statement statement = connection.createStatement();
@@ -311,37 +314,37 @@ public class DAOShip implements DAOcommand<Ship>
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        String queryen = "select * from shipsen";
-        List<Ship> shipsEN = new ArrayList<Ship>();
+        String queryen = "select * from shipsen where capacity> 0";
+        CopyOnWriteArrayList<Ship> shipsEN = new CopyOnWriteArrayList<Ship>();
         try {         	
         	switch(orderBy) 
             {
             case "capacity":
-            	queryen = "select * from shipsen order by capacity ASC";
+            	queryen = "select * from shipsen where capacity> 0 order by capacity ASC";
             	break;
             case "route":
-            	queryen = "select * from shipsen order by route ASC";
+            	queryen = "select * from shipsen where capacity> 0 order by route ASC";
             	break;
             case "countPort":
-            	queryen = "select * from shipsen order by countPort ASC";
+            	queryen = "select * from shipsen where capacity> 0 order by countPort ASC";
             	break;
             case "duration":
-            	queryen = "select * from shipsen order by duration ASC";
+            	queryen = "select * from shipsen where capacity> 0 order by duration ASC";
             	break;
             case "staff":
-            	queryen = "select * from shipsen order by staff ASC";
+            	queryen = "select * from shipsen where capacity> 0 order by staff ASC";
             	break;
             case "type":
-            	queryen = "select * from shipsen order by type ASC";
+            	queryen = "select * from shipsen where capacity> 0 order by type ASC";
             	break;
             case "price":
-            	queryen = "select * from shipsen order by price ASC";
+            	queryen = "select * from shipsen where capacity> 0 order by price ASC";
             	break;
             case "departure":
-            	queryen = "select * from shipsen order by departure ASC";
+            	queryen = "select * from shipsen where capacity> 0 order by departure ASC";
             	break;
             case "services":
-            	queryen = "select * from shipsen order by services ASC";
+            	queryen = "select * from shipsen where capacity> 0 order by services ASC";
             	break;
             }
             Statement statement = connection.createStatement();
@@ -375,11 +378,11 @@ public class DAOShip implements DAOcommand<Ship>
         
 	}
 	
-	public List<Ship> getAllUser(String locale, String orderBy, String login) 
+	public CopyOnWriteArrayList<Ship> getAllUser(String locale, String orderBy, String login) 
 	{
 		String queryua = "select   user_ships.count, shipsua.shipID, shipsua.capacity, shipsua.route, shipsua.countPort, shipsua.duration, shipsua.staff, shipsua.type, shipsua.price, shipsua.services, shipsua.departure"
 				+ " from shipsua join user_ships on shipsua.shipID=user_ships.shipID where user_ships.login=\"" + login + "\" order by " + orderBy;
-		List<Ship> shipsUA = new ArrayList<Ship>();
+		CopyOnWriteArrayList<Ship> shipsUA = new CopyOnWriteArrayList<Ship>();
         try {        	            
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(queryua);
@@ -403,7 +406,7 @@ public class DAOShip implements DAOcommand<Ship>
         }
         String queryen = "select   user_ships.count, shipsen.shipID, shipsen.capacity, shipsen.route, shipsen.countPort, shipsen.duration, shipsen.staff, shipsen.type, shipsen.price, shipsen.services, shipsen.departure"
 				+ " from shipsen join user_ships on shipsen.shipID=user_ships.shipID where user_ships.login=\"" + login + "\" order by " + orderBy;
-        List<Ship> shipsEN = new ArrayList<Ship>();
+        CopyOnWriteArrayList<Ship> shipsEN = new CopyOnWriteArrayList<Ship>();
         try {         	
         	Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(queryen);
@@ -436,11 +439,11 @@ public class DAOShip implements DAOcommand<Ship>
         }        
 	}
 	
-	public List<String> getAllUserShipID( String login) 
+	public CopyOnWriteArrayList<String> getAllUserShipID( String login) 
 	{
 		String queryua = "select   shipsua.shipID"
 				+ " from shipsua join user_ships on shipsua.shipID=user_ships.shipID where user_ships.login=\"" + login + "\"";
-		List<String> shipsid = new ArrayList<String>();
+		CopyOnWriteArrayList<String> shipsid = new CopyOnWriteArrayList<String>();
         try {        	            
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(queryua);

@@ -42,8 +42,10 @@ public class RegistrationController extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{		
-		request.getSession().setAttribute("message", "null");		
+	{				
+		request.getSession().setAttribute("message", "null");
+		request.getSession().setAttribute("errorMessage", "null");
+		request.getSession().setAttribute("error", "null");
 		request.getRequestDispatcher(REGISTER).forward(request, response);
 	}
 
@@ -70,7 +72,7 @@ public class RegistrationController extends HttpServlet {
 				match.validateField(Matcher.cashPattern, request.getParameter("cash"));
 				service.makeUser(request);				 
 				request.getSession().setAttribute("message", "user_registr");
-				response.sendRedirect(request.getContextPath() + "/auth");			
+				response.sendRedirect(request.getContextPath() + "/auth?action=error");			
 				log.info("New user was added");
 			}else 
 			{

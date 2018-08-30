@@ -49,13 +49,13 @@ public class AdminFilter implements Filter {
 		}
 		else if(user!=null && !user.getRole().equals("admin"))
 		{
-			req.getSession().setAttribute("errorMessage", "Access denied! You are not admin!");				
-			res.sendRedirect("http://localhost:8080/CruiseApp/");			
+			req.getSession().setAttribute("errorMessage", "admin_error");				
+			res.sendRedirect("http://localhost:8080/CruiseApp/auth?action=error");			
 		}
 		else 
 		{
-			req.getSession().setAttribute("errorMessage", "Access denied! You are not admin!");		
-			res.sendRedirect("http://localhost:8080/CruiseApp/");
+			req.getSession().setAttribute("errorMessage", "admin_error");		
+			res.sendRedirect("http://localhost:8080/CruiseApp/auth?action=error");
 		}
 	}
 

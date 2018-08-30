@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import model.Excursion;
 import model.User;
@@ -140,9 +141,9 @@ public class DAOExcursion implements DAOcommand<Excursion>
 		}
 	}
 	
-	public List<Excursion> getAllByPage(String locale, int page) 
+	public CopyOnWriteArrayList<Excursion> getAllByPage(String locale, int page) 
 	{		
-		List<Excursion> excursionsUA = new ArrayList<Excursion>();
+		CopyOnWriteArrayList<Excursion> excursionsUA = new CopyOnWriteArrayList<Excursion>();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from excursionua limit 5 offset " + (page-1)*5);
@@ -159,7 +160,7 @@ public class DAOExcursion implements DAOcommand<Excursion>
         }
        
 		
-        List<Excursion> excursionsEN = new ArrayList<Excursion>();
+        CopyOnWriteArrayList<Excursion> excursionsEN = new CopyOnWriteArrayList<Excursion>();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from excursionen limit 5 offset " + (page-1)*5);
@@ -231,9 +232,9 @@ public class DAOExcursion implements DAOcommand<Excursion>
         return exc;
 	}
 
-	public List<Excursion> getAllUser(String locale, String login) 
+	public CopyOnWriteArrayList<Excursion> getAllUser(String locale, String login) 
 	{		
-		List<Excursion> excursionsUA = new ArrayList<Excursion>();
+		CopyOnWriteArrayList<Excursion> excursionsUA = new CopyOnWriteArrayList<Excursion>();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from excursionua join user_excursions on excursionua.excursionID=user_excursions.excursionID where login=\"" + login + "\"");
@@ -251,7 +252,7 @@ public class DAOExcursion implements DAOcommand<Excursion>
         }
        
 		
-        List<Excursion> excursionsEN = new ArrayList<Excursion>();
+        CopyOnWriteArrayList<Excursion> excursionsEN = new CopyOnWriteArrayList<Excursion>();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from excursionen join  user_excursions on excursionen.excursionID=user_excursions.excursionID where login=\"" + login + "\"");
@@ -278,9 +279,9 @@ public class DAOExcursion implements DAOcommand<Excursion>
 	}
 
 	@Override
-	public List<Excursion> getAll(String locale) 
+	public CopyOnWriteArrayList<Excursion> getAll(String locale) 
 	{
-		List<Excursion> excursionsUA = new ArrayList<Excursion>();
+		CopyOnWriteArrayList<Excursion> excursionsUA = new CopyOnWriteArrayList<Excursion>();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from excursionua");
@@ -297,7 +298,7 @@ public class DAOExcursion implements DAOcommand<Excursion>
         }
        
 		
-        List<Excursion> excursionsEN = new ArrayList<Excursion>();
+        CopyOnWriteArrayList<Excursion> excursionsEN = new CopyOnWriteArrayList<Excursion>();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from excursionen");
@@ -321,9 +322,9 @@ public class DAOExcursion implements DAOcommand<Excursion>
         }
 	}
 	
-	public List<Excursion> getAllAvailable(String locale, String id) 
+	public CopyOnWriteArrayList<Excursion> getAllAvailable(String locale, String id) 
 	{		
-		List<Excursion> excursionsUA = new ArrayList<Excursion>();
+		CopyOnWriteArrayList<Excursion> excursionsUA = new CopyOnWriteArrayList<Excursion>();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from excursionua join ship_excursion on excursionua.excursionID=ship_excursion.excursionID where shipID=\"" + id + "\"");
@@ -340,7 +341,7 @@ public class DAOExcursion implements DAOcommand<Excursion>
         }
        
 		
-        List<Excursion> excursionsEN = new ArrayList<Excursion>();
+        CopyOnWriteArrayList<Excursion> excursionsEN = new CopyOnWriteArrayList<Excursion>();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from excursionen join  ship_excursion on excursionen.excursionID=ship_excursion.excursionID where shipID=\"" + id + "\"");

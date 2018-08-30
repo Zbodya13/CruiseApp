@@ -155,7 +155,7 @@ public class ApplicationService
 		User u;
 		boolean act = true;			
 		u = daoUser.getByID(login, locale);
-		Ship ship = (Ship)daoShip.getByID(request.getParameter("shipID"),locale);
+		Ship ship = (Ship)daoShip.getByID(request.getParameter("shipID"),locale);		
 		if(u.getCash()>ship.getPrice())
 		{				
 			List<UserShip> userShip = daoUShip.getAll(locale);
@@ -220,14 +220,9 @@ public class ApplicationService
 					ship = (Ship)daoShip.getByID(ship.getShipID(), "en");
 					u.setCash(u.getCash()-ship.getPrice());
 					daoUser.update(u, "en");
-				}	
-				try {
-					daoUShip.add(uShip,locale);
-				} catch (SQLException e) 
-				{				
-					request.getSession().setAttribute("error", "wrong_trans");
-					response.sendRedirect("?action=userListShips&sessionLocale=" + locale);
-				}		
+				}				
+				daoUShip.add(uShip,locale);
+					
 			}
 			request.getSession().setAttribute("message", "buy_ship");
 			response.sendRedirect("?action=userListShips&sessionLocale=" + locale);
@@ -237,6 +232,7 @@ public class ApplicationService
 			request.getSession().setAttribute("error", "no_money");
 			response.sendRedirect("?action=listShips&sessionLocale=" + locale);
 		}
+		
 	}
 	
 	public void buyExcursion(HttpServletRequest request, HttpServletResponse response, String login, String locale)

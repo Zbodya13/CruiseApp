@@ -18,8 +18,8 @@
 <div class="container">
 
 <p>
-<a href="?sessionLocale=en" class="btn btn-info" role="button"><fmt:message key="en" /></a>
-<a href="?sessionLocale=ua" class="btn btn-info" role="button"><fmt:message key="ua" /></a>
+<a href="?sessionLocale=en&action=first" class="btn btn-info" role="button"><fmt:message key="en" /></a>
+<a href="?sessionLocale=ua&action=first" class="btn btn-info" role="button"><fmt:message key="ua" /></a>
 </p>
 
 

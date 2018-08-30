@@ -49,12 +49,12 @@ public class CustomUserFilter implements Filter {
 		}
 		else if(user!=null && !user.getRole().equals("custom"))
 		{
-			req.getSession().setAttribute("errorMessage", "Access denied! You are not logged in!");				
-			res.sendRedirect("http://localhost:8080/CruiseApp/");
+			req.getSession().setAttribute("errorMessage", "custom_error");				
+			res.sendRedirect("http://localhost:8080/CruiseApp/auth?action=error");
 		}
 		else 
 		{
-			res.sendRedirect("http://localhost:8080/CruiseApp/");
+			res.sendRedirect("http://localhost:8080/CruiseApp/auth?action=error");
 		}
 	}
 

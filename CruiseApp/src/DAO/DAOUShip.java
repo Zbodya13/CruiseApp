@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import model.Excursion;
 import model.UserExcursion;
@@ -94,9 +95,9 @@ public class DAOUShip implements DAOcommand<UserShip>
 	}
 
 	@Override
-	public List<UserShip> getAll(String locale) 
+	public CopyOnWriteArrayList<UserShip> getAll(String locale) 
 	{
-		List<UserShip> userShip = new ArrayList<UserShip>();
+		CopyOnWriteArrayList<UserShip> userShip = new CopyOnWriteArrayList<UserShip>();
         try {
             Statement statement = connection.createStatement();            
             ResultSet rs = statement.executeQuery("select * from user_ships");

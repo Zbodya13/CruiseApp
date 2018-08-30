@@ -23,7 +23,7 @@ public class DBConnection {
 	        else {
 	            try {
 	                Properties prop = new Properties();
-	                InputStream inputStream = DBConnection.class.getClassLoader().getResourceAsStream("/db.properties");
+	                InputStream inputStream = DBConnection.class.getClassLoader().getResourceAsStream("/resources/db.properties");
 	                prop.load(inputStream);
 	                String driver = prop.getProperty("driver");
 	                String url = prop.getProperty("url");	                

@@ -107,14 +107,14 @@ public class CustomerController extends HttpServlet {
 		else if(action.equals("buyShip")) 
 		{			
 			try {				
-				service.buyShip(request, response, login, locale);
-				log.info("Ship was bought");
-			} catch (SQLException e) 
-			{
-				request.getSession().setAttribute("error", "wrong_trans");
-				response.sendRedirect("?action=buyShip&sessionLocale=" + locale);	
-				log.info("Problem with buying ship");
-			}
+					service.buyShip(request, response, login, locale);
+					log.info("Ship was bought");
+				} catch (SQLException e) 
+				{
+					request.getSession().setAttribute("error", "wrong_trans");
+					response.sendRedirect("?action=buyShip&sessionLocale=" + locale);	
+					log.info("Problem with buying ship");
+				}
 		}
 		else if(action.equals("buyExcursion")) 
 		{			
