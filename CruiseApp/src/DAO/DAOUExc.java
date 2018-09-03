@@ -98,7 +98,7 @@ public class DAOUExc implements DAOcommand<UserExcursion>
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from user_excursions");
             while (rs.next()) {
-                UserExcursion uExc = new UserExcursion();
+                UserExcursion uExc = this.createEntity();
                 uExc.setExcursionID(rs.getString("excursionID"));
                 uExc.setLogin(rs.getString("login"));
                 uExc.setCount(rs.getInt("count"));
@@ -113,7 +113,7 @@ public class DAOUExc implements DAOcommand<UserExcursion>
 	@Override
 	public UserExcursion getByID(String id, String excursionID) 
 	{		
-		UserExcursion uExc = new UserExcursion();
+		UserExcursion uExc = this.createEntity();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select * from user_excursions where login=? and excursionID=?");
             preparedStatement.setString(1, id);
@@ -132,9 +132,13 @@ public class DAOUExc implements DAOcommand<UserExcursion>
 	}
 
 	@Override
-	public void delete(String ID) {
-		// TODO Auto-generated method stub
-		
+	public void delete(String ID) {		
+	}
+
+	@Override
+	public UserExcursion createEntity()
+	{
+		return new UserExcursion();
 	}
 
 }

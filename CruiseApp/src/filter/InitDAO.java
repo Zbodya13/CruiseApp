@@ -17,7 +17,7 @@ import DAO.DAOShip;
  */
 
 @WebFilter("/*")
-public class CharacterEncodingAndInitDAO implements Filter {
+public class InitDAO implements Filter {
 
    
 
@@ -36,15 +36,12 @@ public class CharacterEncodingAndInitDAO implements Filter {
 		    	request.setAttribute("excursions",daoExc.getAll("en"));
 		    	request.setAttribute("ships",daoShip.getAll("en"));
 		    }
-	        request.setCharacterEncoding("UTF-8");
-	        response.setContentType("text/html; charset=UTF-8");
-	        response.setCharacterEncoding("UTF-8");
 	        chain.doFilter(request, response);
 	    }
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

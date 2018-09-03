@@ -52,6 +52,43 @@
 	<input type="text" hidden name="excursionID" value="${exc.excursionID}">  
 	<button type="submit" class="btn btn-default"><fmt:message key="create" /></button> 	
 </form>
+<table  class="table table-condensed">
+	<thead>
+		<tr>
+			<th><fmt:message key="ship_id" /></th>	
+			<th><fmt:message key="excursion_id" /></th>					
+		</tr>
+	</thead>
+	<tbody>
+		<c:forEach var="excShip" items="${shipsExcursions}"> 
+		<tr>
+			<th><c:out value="${excShip.shipID}"/></th>     
+			<th><c:out value="${excShip.excursionID}"/></th>       
+			<th>
+			<form method="post" action="<c:url value='/admin/adminExcursion'/>" accept-charset="UTF-8">        				
+        				<input type="text" hidden name="excursionID" value="${excShip.excursionID}">
+        				<input type="text" hidden name="shipID" value="${excShip.shipID}">
+        				<input type="text" hidden name="action" value="deleteShipExc"> 
+				<button type="submit" class="btn btn-default"><fmt:message key="delete" /></button> 
+        			</form>
+			</th>    			       
+		</tr>
+		</c:forEach>	
+	</tbody>
+</table>	
+
+<table>
+<c:forEach var="pagen" items="${pages}">
+	<td>
+	<form method="get" action="<c:url value='/admin/adminExcursion'/>" accept-charset="UTF-8">
+        	<input type="text" hidden name="action" value="createShipExc">
+        	<input type="text" hidden name="page" value="${pagen}">    
+        	<input type="text" hidden name="sessionLocale" value="${sessionScope.sessionLocale}">        							
+        	<button type="submit" class="btn btn-default">${pagen}</button>  
+        	</form></td>
+</c:forEach>
+</table>
+
 <div class="col-xs-4">
 <div class="alert alert-danger" role="alert">
    <fmt:message key="${sessionScope.error}" />  

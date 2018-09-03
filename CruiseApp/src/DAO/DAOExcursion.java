@@ -148,7 +148,7 @@ public class DAOExcursion implements DAOcommand<Excursion>
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from excursionua limit 5 offset " + (page-1)*5);
             while (rs.next()) {
-                Excursion excUA = new Excursion();
+                Excursion excUA = this.createEntity();
                 excUA.setExcursionID(rs.getString("excursionID"));
                 excUA.setCity(rs.getString("city"));
                 excUA.setDescription(rs.getString("description"));
@@ -165,7 +165,7 @@ public class DAOExcursion implements DAOcommand<Excursion>
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from excursionen limit 5 offset " + (page-1)*5);
             while (rs.next()) {
-                Excursion excEN = new Excursion();
+                Excursion excEN = this.createEntity();
                 excEN.setExcursionID(rs.getString("excursionID"));
                 excEN.setCity(rs.getString("city"));
                 excEN.setDescription(rs.getString("description"));
@@ -189,7 +189,7 @@ public class DAOExcursion implements DAOcommand<Excursion>
 	public Excursion getByID(String id, String locale)
 	{
 		Excursion exc;
-		Excursion excUA = new Excursion();
+		Excursion excUA = this.createEntity();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select * from excursionua where excursionID=?");
             preparedStatement.setString(1, id);
@@ -204,7 +204,7 @@ public class DAOExcursion implements DAOcommand<Excursion>
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Excursion excEN = new Excursion();
+        Excursion excEN = this.createEntity();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select * from excursionen where excursionID=?");
             preparedStatement.setString(1, id);
@@ -239,7 +239,7 @@ public class DAOExcursion implements DAOcommand<Excursion>
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from excursionua join user_excursions on excursionua.excursionID=user_excursions.excursionID where login=\"" + login + "\"");
             while (rs.next()) {
-                Excursion excUA = new Excursion();
+                Excursion excUA = this.createEntity();
                 excUA.setExcursionID(rs.getString("excursionID"));
                 excUA.setCity(rs.getString("city"));
                 excUA.setDescription(rs.getString("description"));
@@ -257,7 +257,7 @@ public class DAOExcursion implements DAOcommand<Excursion>
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from excursionen join  user_excursions on excursionen.excursionID=user_excursions.excursionID where login=\"" + login + "\"");
             while (rs.next()) {
-                Excursion excEN = new Excursion();
+                Excursion excEN = this.createEntity();
                 excEN.setExcursionID(rs.getString("excursionID"));
                 excEN.setCity(rs.getString("city"));
                 excEN.setDescription(rs.getString("description"));
@@ -286,7 +286,7 @@ public class DAOExcursion implements DAOcommand<Excursion>
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from excursionua");
             while (rs.next()) {
-                Excursion excUA = new Excursion();
+                Excursion excUA = this.createEntity();
                 excUA.setExcursionID(rs.getString("excursionID"));
                 excUA.setCity(rs.getString("city"));
                 excUA.setDescription(rs.getString("description"));
@@ -303,7 +303,7 @@ public class DAOExcursion implements DAOcommand<Excursion>
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from excursionen");
             while (rs.next()) {
-                Excursion excEN = new Excursion();
+                Excursion excEN = this.createEntity();
                 excEN.setExcursionID(rs.getString("excursionID"));
                 excEN.setCity(rs.getString("city"));
                 excEN.setDescription(rs.getString("description"));
@@ -329,7 +329,7 @@ public class DAOExcursion implements DAOcommand<Excursion>
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from excursionua join ship_excursion on excursionua.excursionID=ship_excursion.excursionID where shipID=\"" + id + "\"");
             while (rs.next()) {
-                Excursion excUA = new Excursion();
+                Excursion excUA = this.createEntity();
                 excUA.setExcursionID(rs.getString("excursionID"));
                 excUA.setCity(rs.getString("city"));
                 excUA.setDescription(rs.getString("description"));
@@ -346,7 +346,7 @@ public class DAOExcursion implements DAOcommand<Excursion>
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from excursionen join  ship_excursion on excursionen.excursionID=ship_excursion.excursionID where shipID=\"" + id + "\"");
             while (rs.next()) {
-                Excursion excEN = new Excursion();
+                Excursion excEN = this.createEntity();
                 excEN.setExcursionID(rs.getString("excursionID"));
                 excEN.setCity(rs.getString("city"));
                 excEN.setDescription(rs.getString("description"));
@@ -364,6 +364,12 @@ public class DAOExcursion implements DAOcommand<Excursion>
         	return excursionsEN;
         }
         
+	}
+
+	@Override
+	public Excursion createEntity() 
+	{
+		return new Excursion();		
 	}
 	
 }

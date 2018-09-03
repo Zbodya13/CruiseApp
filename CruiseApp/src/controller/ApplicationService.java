@@ -14,11 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import DAO.DAOExcursion;
 import DAO.DAOShip;
+import DAO.DAOShipExc;
 import DAO.DAOUExc;
 import DAO.DAOUShip;
 import DAO.DAOUser;
 import model.Excursion;
 import model.Ship;
+import model.ShipExcursion;
 import model.User;
 import model.UserExcursion;
 import model.UserShip;
@@ -34,6 +36,7 @@ public class ApplicationService
 	private DAOShip daoShip;
 	private DAOUShip daoUShip;
 	private DAOUExc daoUExc;
+	private DAOShipExc daoSE;
 	
 	
 
@@ -44,6 +47,7 @@ public class ApplicationService
 		daoShip = new DAOShip(); 
 		daoUShip = new DAOUShip();
 		daoUExc = new DAOUExc();
+		daoSE = new DAOShipExc();
 	}
 	
 	public void makeUser(HttpServletRequest request) throws SQLException, UnsupportedEncodingException {		
@@ -393,5 +397,36 @@ public class ApplicationService
 		daoUser.update(userUA, "ua");
 		return login;
 	}
+	
+	public void excShipListByPages(HttpServletRequest request, String locale) {
+		List<ShipExcursion> excShip = daoSE.getAll(locale);			
+		List<Integer> pages = new ArrayList<>();			
+		for(int i= 1;i<=Math.ceil(excShip.size()/5)+1;i++) 
+		{
+			pages.add(i);
+		}			
+		request.setAttribute("pages", pages);			
+		if(request.getParameter("page")!=null)
+		{
+			int page = Integer.parseInt(request.getParameter("page"));
+			if(locale.equals("ua"))
+			{
+				request.setAttribute("shipsExcursions", daoSE.getAllByPage("ua",page));
+			}else if (locale.equals("en")) 
+			{
+				request.setAttribute("shipsExcursions", daoSE.getAllByPage("en",page));
+			}
+		}
+		else
+		{			
+			if(locale.equals("ua"))
+			{
+				request.setAttribute("shipsExcursions", daoSE.getAllByPage("ua",1));
+			}else if (locale.equals("en")) 
+			{
+				request.setAttribute("shipsExcursions", daoSE.getAllByPage("en",1));
+			}
+		}
+	} 
 
 }

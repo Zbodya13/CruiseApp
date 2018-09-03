@@ -158,7 +158,7 @@ public class DAOUser implements DAOcommand<User>
             PreparedStatement statement = connection.prepareStatement("select * from usersua");
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                User userUA = new User();
+                User userUA = this.createEntity();
                 userUA.setLogin(rs.getString("login"));
                 userUA.setPassword(rs.getString("password"));
                 userUA.setName(rs.getString("name"));
@@ -177,7 +177,7 @@ public class DAOUser implements DAOcommand<User>
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from usersen");
             while (rs.next()) {
-                User userEN = new User();
+                User userEN = this.createEntity();
                 userEN.setLogin(rs.getString("login"));
                 userEN.setPassword(rs.getString("password"));
                 userEN.setName(rs.getString("name"));
@@ -197,7 +197,7 @@ public class DAOUser implements DAOcommand<User>
 	@Override
 	public User getByID(String id, String locale) 
 	{		
-		 User userUA = new User();
+		 User userUA = this.createEntity();
 	        try {
 	            PreparedStatement preparedStatement = connection.prepareStatement("select * from usersua where login=?");
 	            preparedStatement.setString(1, id);
@@ -215,7 +215,7 @@ public class DAOUser implements DAOcommand<User>
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
-	     User userEN = new User();
+	     User userEN = this.createEntity();
 	        try {
 	            PreparedStatement preparedStatement = connection.prepareStatement("select * from usersen where login=?");
 	            preparedStatement.setString(1, id);
@@ -242,6 +242,12 @@ public class DAOUser implements DAOcommand<User>
 	        }
 
 	       
+	}
+
+	@Override
+	public User createEntity()
+	{
+		return new User();
 	}
 
 }

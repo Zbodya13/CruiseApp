@@ -102,7 +102,7 @@ public class DAOUShip implements DAOcommand<UserShip>
             Statement statement = connection.createStatement();            
             ResultSet rs = statement.executeQuery("select * from user_ships");
             while (rs.next()) {
-                UserShip uShip = new UserShip();
+                UserShip uShip = this.createEntity();
                 uShip.setShipID(rs.getString("shipID"));
                 uShip.setLogin(rs.getString("login"));
                 uShip.setCount(rs.getShort("count"));
@@ -117,7 +117,7 @@ public class DAOUShip implements DAOcommand<UserShip>
 	@Override
 	public UserShip getByID(String login, String shipID) 
 	{		
-		UserShip uShip = new UserShip();
+		UserShip uShip = this.createEntity();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select * from user_ships where login=? and shipID=?");
             preparedStatement.setString(1, login);
@@ -138,6 +138,12 @@ public class DAOUShip implements DAOcommand<UserShip>
 	@Override
 	public void delete(String ID) {
 				
+	}
+
+	@Override
+	public UserShip createEntity() 
+	{
+		return new UserShip();
 	}
 
 }

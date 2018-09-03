@@ -1,7 +1,6 @@
 package DAO;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -15,5 +14,6 @@ public interface DAOcommand <T>
 	public void update(T t, String locale) throws SQLException;
 	public CopyOnWriteArrayList<T> getAll(String locale);
 	public T getByID(String id, String locale);
+	abstract public T createEntity();
 	
 }

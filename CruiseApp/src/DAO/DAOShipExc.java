@@ -44,16 +44,27 @@ public class DAOShipExc implements DAOcommand<ShipExcursion>
 		}		
 	}
 
-	@Override
-	public void delete(String ID) {
-		// TODO Auto-generated method stub
+	
+	public void delete(String excursionID, String shipID) throws SQLException 
+	{
+		try {
+			PreparedStatement pre = connection.prepareStatement("delete from ship_excursion where shipID=? and excursionID=?");
+			connection.setAutoCommit(false);
+			pre.setString(1, shipID);
+			pre.setString(2, excursionID);
+			pre.executeUpdate();
+			connection.commit();
+		} catch (SQLException e) 
+		{			
+			e.printStackTrace();
+			connection.rollback();
+		}
+		
 		
 	}
 
 	@Override
-	public void update(ShipExcursion t, String locale) {
-		// TODO Auto-generated method stub
-		
+	public void update(ShipExcursion t, String locale) {		
 	}
 
 	@Override
@@ -64,7 +75,7 @@ public class DAOShipExc implements DAOcommand<ShipExcursion>
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from ship_excursion");
             while (rs.next()) {
-                ShipExcursion shExc = new ShipExcursion();
+                ShipExcursion shExc = this.createEntity();
                 shExc.setExcursionID(rs.getString("excursionID"));
                 shExc.setShipID(rs.getString("shipID"));               
                 shipExc.add(shExc);
@@ -78,7 +89,7 @@ public class DAOShipExc implements DAOcommand<ShipExcursion>
 	@Override
 	public ShipExcursion getByID(String id, String locale) 
 	{
-		ShipExcursion shExc = new ShipExcursion();
+		ShipExcursion shExc = this.createEntity();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("select * from ship_excursion where shipID=?");
             preparedStatement.setString(1, id);           
@@ -94,5 +105,33 @@ public class DAOShipExc implements DAOcommand<ShipExcursion>
         return shExc;
 	}
 
+	@Override
+	public ShipExcursion createEntity() 
+	{
+		return new ShipExcursion();
+	}
+
+	@Override
+	public void delete(String ID) throws SQLException {
+		
+	}
+
+	public CopyOnWriteArrayList<ShipExcursion> getAllByPage(String locale, int page) 
+	{
+		CopyOnWriteArrayList<ShipExcursion> shipExc = new CopyOnWriteArrayList<ShipExcursion>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from ship_excursion limit 5 offset " + (page-1)*5);
+            while (rs.next()) {
+                ShipExcursion shExc = this.createEntity();
+                shExc.setExcursionID(rs.getString("excursionID"));
+                shExc.setShipID(rs.getString("shipID"));               
+                shipExc.add(shExc);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return shipExc;
+	}
 	
 }

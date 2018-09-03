@@ -153,7 +153,7 @@ public class DAOShip implements DAOcommand<Ship>
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from shipsua where capacity> 0");
             while (rs.next()) {
-                Ship shipUA = new Ship();
+                Ship shipUA = this.createEntity();
                 shipUA.setShipID(rs.getString("shipID"));
                 shipUA.setCapacity(rs.getInt("capacity"));
                 shipUA.setRoute(rs.getString("route"));
@@ -174,7 +174,7 @@ public class DAOShip implements DAOcommand<Ship>
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from shipsen where capacity> 0");
             while (rs.next()) {
-                Ship shipEN = new Ship();
+                Ship shipEN = this.createEntity();
                 shipEN.setShipID(rs.getString("shipID"));
                 shipEN.setCapacity(rs.getInt("capacity"));
                 shipEN.setRoute(rs.getString("route"));
@@ -204,7 +204,7 @@ public class DAOShip implements DAOcommand<Ship>
 	public Ship getByID(String id,String locale) 
 	{
 		 Ship ship;
-		 Ship shipUA = new Ship();
+		 Ship shipUA = this.createEntity();
 	        try {	        	
 	            PreparedStatement preparedStatement = connection.prepareStatement("select * from shipsua where shipID=?");
 	            preparedStatement.setString(1, id);
@@ -225,7 +225,7 @@ public class DAOShip implements DAOcommand<Ship>
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        }
-	      Ship shipEN = new Ship();
+	      Ship shipEN = this.createEntity();
 	        try {	        	
 	            PreparedStatement preparedStatement = connection.prepareStatement("select * from shipsen where shipID=?");
 	            preparedStatement.setString(1, id);
@@ -298,7 +298,7 @@ public class DAOShip implements DAOcommand<Ship>
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(queryua);
             while (rs.next()) {
-                Ship shipUA = new Ship();
+                Ship shipUA = this.createEntity();
                 shipUA.setShipID(rs.getString("shipID"));
                 shipUA.setCapacity(rs.getInt("capacity"));
                 shipUA.setRoute(rs.getString("route"));
@@ -350,7 +350,7 @@ public class DAOShip implements DAOcommand<Ship>
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(queryen);
             while (rs.next()) {
-                Ship shipEN = new Ship();
+                Ship shipEN = this.createEntity();
                 shipEN.setShipID(rs.getString("shipID"));
                 shipEN.setCapacity(rs.getInt("capacity"));
                 shipEN.setRoute(rs.getString("route"));
@@ -367,12 +367,10 @@ public class DAOShip implements DAOcommand<Ship>
             e.printStackTrace();
         }       
         if(locale.equalsIgnoreCase("ua"))
-        {
-        	System.out.println("ua");
+        {        	
         	return shipsUA;        	
         }else 
-        {
-        	System.out.println("ua");
+        {        	
         	return shipsEN;        	
         }
         
@@ -387,7 +385,7 @@ public class DAOShip implements DAOcommand<Ship>
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(queryua);
             while (rs.next()) {
-                Ship shipUA = new Ship();
+                Ship shipUA = this.createEntity();
                 shipUA.setShipID(rs.getString("shipID"));
                 shipUA.setCapacity(rs.getInt("capacity"));
                 shipUA.setRoute(rs.getString("route"));
@@ -411,7 +409,7 @@ public class DAOShip implements DAOcommand<Ship>
         	Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(queryen);
             while (rs.next()) {
-                Ship shipEN = new Ship();
+                Ship shipEN = this.createEntity();
                 shipEN.setShipID(rs.getString("shipID"));
                 shipEN.setCapacity(rs.getInt("capacity"));
                 shipEN.setRoute(rs.getString("route"));
@@ -429,12 +427,10 @@ public class DAOShip implements DAOcommand<Ship>
             e.printStackTrace();
         }       
         if(locale.equalsIgnoreCase("ua"))
-        {
-        	System.out.println("ua");
+        {        	
         	return shipsUA;        	
         }else 
-        {
-        	System.out.println("ua");
+        {        	
         	return shipsEN;        	
         }        
 	}
@@ -454,6 +450,15 @@ public class DAOShip implements DAOcommand<Ship>
             e.printStackTrace();
         }
         return shipsid;        
+	}
+
+
+
+
+	@Override
+	public Ship createEntity() 
+	{
+		return new Ship();
 	}
 	
 	

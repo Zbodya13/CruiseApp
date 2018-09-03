@@ -27,7 +27,7 @@ public class AdminExcursionController extends HttpServlet {
 	private static String EDIT_EXC = "editExcursion.jsp";
 	private static String SHIP_EXC = "shipExcCreate.jsp";
     private DAOExcursion daoExc;
-    private DAOShipExc daoSE;
+    private DAOShipExc daoSE;   
     private ApplicationService service;
     boolean checkExcursion;
     
@@ -72,8 +72,10 @@ public class AdminExcursionController extends HttpServlet {
 			request.getRequestDispatcher(LIST_EXC).forward(request, response);
 			request.getSession().setAttribute("error", "null");
 		}else if(action.equals("createShipExc")) 
-		{						
+		{	
+			service.excShipListByPages(request, locale);			
 			request.getRequestDispatcher(SHIP_EXC).forward(request, response);
+			request.getSession().setAttribute("error", "null");	
 		}
 	}
 
@@ -147,7 +149,21 @@ public class AdminExcursionController extends HttpServlet {
 			}
 			request.getSession().setAttribute("error","null"); 
 			response.sendRedirect(request.getContextPath() + "/admin/adminExcursion?action=list");		
-		}			
+		}
+		else if(action.equals("deleteShipExc")) 
+		{
+			System.out.println(request.getParameter("excursionID") + " " + request.getParameter("shipID"));
+			try 
+			{
+				daoSE.delete(request.getParameter("excursionID"),request.getParameter("shipID"));
+			}catch(SQLException e) 
+			{
+				request.getSession().setAttribute("error", "wrong_trans");
+				response.sendRedirect("?action=createShipExc&sessionLocale=" + locale);		
+			}
+			request.getSession().setAttribute("error","null"); 
+			response.sendRedirect(request.getContextPath() + "/admin/adminExcursion?action=list");		
+		}
 	}
 
 	
