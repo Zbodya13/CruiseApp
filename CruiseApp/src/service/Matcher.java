@@ -1,0 +1,24 @@
+package service;
+
+import java.io.IOException;
+import java.util.regex.Pattern;
+
+/**
+ *  Checking class for check input values in registration form page.
+ */
+
+public class Matcher {
+
+	public static String enPattern = "[A-Za-z]+";
+	public static String uaPattern = "[йЙцЦуУкКеЕнНгГшШщЩзЗхХїЇєЄжЖдДлЛоОрРпПаАвВіІфФяЯчЧсСмМиИтТьЬбБюЮҐґ]+";
+	public static String phonePattern = "\\d{3}-\\d{3}-\\d{2}-\\d{2}";
+	public static String cashPattern = "[1-9][0-9]+";
+	
+	public void validateField(String pattern, String strToValidate) throws IOException 
+	{
+		if(!Pattern.matches(pattern, strToValidate)) 
+		{
+			throw new IOException();
+		}
+	}
+}
